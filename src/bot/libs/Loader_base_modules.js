@@ -1,10 +1,10 @@
 const fs = require("fs");
-
+const { Collection } = require("discord.js");
 class Loader_base_modules {
 	constructor(Bot) {
 		this.Bot = Bot;
-		this.Bot.commands = new Map();
-		this.Bot.commands_slash = new Map();
+		this.Bot.commands = new Collection();
+		this.Bot.commands_slash = new Collection();
 	}
 	init() {
 		this.init_commands();
@@ -36,6 +36,8 @@ class Loader_base_modules {
 				console.log(`${file} Загружен`);
 			}
 		}
+		const sorted_command = this.Bot.commands.sort((a, b) => a.description.priority - b.description.priority);
+		this.Bot.commands = sorted_command;
 	}
 	init_commands_slash() {
 		const comm_files = fs.readdirSync("./src/bot/slash_cmd/").filter(file => file.endsWith(".js"));
@@ -47,6 +49,8 @@ class Loader_base_modules {
 				console.log(`${file} Загружен`);
 			}
 		}
+		const sorted_command = this.Bot.commands_slash.sort((a, b) => a.description.priority - b.description.priority);
+		this.Bot.commands_slash = sorted_command;
 	}
 }
 

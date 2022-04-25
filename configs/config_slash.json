@@ -13,7 +13,7 @@
 	    "visibility": true,
 	    "priority": 1,
         "load": true,
-        "type": "set_g"
+        "type": "moder"
     },
     "new_members": {
         "name": "new_members",
@@ -38,5 +38,13 @@
 	    "priority": 4,
         "load": true,
         "type": "set_g"
+    },
+    "help":{
+        "name": "help",
+	    "description": " | слеш команда для просмотра команд",
+	    "visibility": true,
+	    "priority": 4,
+        "load": true,
+        "type": "info"
     }
 }

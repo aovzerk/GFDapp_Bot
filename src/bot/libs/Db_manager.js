@@ -16,6 +16,9 @@ class Model_settings_manager {
 			}).catch(err => reject(err));
 		});
 	}
+	delete() {
+		return this.Model_db.destroy();
+	}
 }
 class Db_manager {
 	constructor(Bot) {
@@ -28,6 +31,11 @@ class Db_manager {
 	sync_tabels() {
 		this.Server_m.sync({ "alter": true }).then(() => {
 			console.log("Синхранизация Таблицы servers успешна");
+		});
+	}
+	delete_server(guild) {
+		this.get_server(guild).then(server => {
+			server.Model_db.destroy();
 		});
 	}
 	get_server(guild) {
