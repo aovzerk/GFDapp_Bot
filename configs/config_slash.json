@@ -1,0 +1,42 @@
+{
+    "get_prefix":{
+        "name": "get_prefix",
+	    "description": " | слеш команда для отображения префикса",
+	    "visibility": true,
+	    "priority": 0,
+        "load": true,
+        "type": "info"
+    },
+    "anti_spam":{
+        "name": "anti_spam",
+	    "description": " | слеш команда для управления анти спамом",
+	    "visibility": true,
+	    "priority": 1,
+        "load": true,
+        "type": "set_g"
+    },
+    "new_members": {
+        "name": "new_members",
+	    "description": " | слеш команда для управления оповещениями о новых юзерах",
+	    "visibility": true,
+	    "priority": 2,
+        "load": true,
+        "type": "set_g"
+    },
+    "channel_stat":{
+        "name": "channel_stat",
+	    "description": " | слеш команда для управления каналами статистики",
+	    "visibility": true,
+	    "priority": 3,
+        "load": true,
+        "type": "set_g"
+    },
+    "private_channel":{
+        "name": "private_channel",
+	    "description": " | слеш команда для управления приватками",
+	    "visibility": true,
+	    "priority": 4,
+        "load": true,
+        "type": "set_g"
+    }
+}

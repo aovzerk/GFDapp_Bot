@@ -1,0 +1,26 @@
+{
+  "name": "bgs_bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aovzerk/.bigsmok_bot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aovzerk/.bigsmok_bot/issues"
+  },
+  "homepage": "https://github.com/aovzerk/.bigsmok_bot#readme",
+  "dependencies": {
+    "discord.js": "^13.6.0",
+    "eslint": "^8.13.0",
+    "giphy-api": "^2.0.2",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.19.0"
+  }
+}
