@@ -8,7 +8,8 @@ class Anti_url {
 			"https://tenor.com/",
 			"https://youtu.be/",
 			"https://i.imgur.com/",
-			"https://www.youtube.com/"
+			"https://www.youtube.com/",
+			"https://telegra.ph/"
 
 		];
 		this.white_channels = "https://discord.com/channels/";
