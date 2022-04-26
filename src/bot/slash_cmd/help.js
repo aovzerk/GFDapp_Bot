@@ -32,6 +32,11 @@ class Command extends Base_Command {
 				"label": "Настрйоки сервера",
 				"description": "Команды для настрйоки сервера",
 				"value": "set_g"
+			},
+			{
+				"label": "Разное",
+				"description": "Разные команды",
+				"value": "etc"
 			}
 		];
 		const select_ment = new MessageSelectMenu()
@@ -41,7 +46,7 @@ class Command extends Base_Command {
 			.setMaxValues(1)
 			.setOptions(options);
 		const embed = new MessageEmbed()
-			.setTitle("Меня бота GFDapp");
+			.setTitle("Меню бота GFDapp");
 		const row = new MessageActionRow().addComponents(select_ment);
 		args.inter.reply({ "embeds": [embed], "components": [row] });
 	}

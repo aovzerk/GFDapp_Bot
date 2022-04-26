@@ -1,7 +1,7 @@
 class Initializer_global_slash {
 	constructor(Bot) {
 		this.Bot = Bot;
-		this._start = 0;
+		this._start = 1;
 		this.commands = [
 			{
 				"name": "get_prefix",
@@ -102,6 +102,28 @@ class Initializer_global_slash {
 			{
 				"name": "help",
 				"description": "Список команд"
+			},
+			{
+				"name": "anti_url",
+				"description": "управление анти ссылками",
+				"options": [
+					{
+						"name": "status",
+						"description": "Включение или выключение анти ссылки",
+						"type": 4,
+						"required": true,
+						"choices": [
+							{
+								"name": "on",
+								"value": 1
+							},
+							{
+								"name": "off",
+								"value": 0
+							}
+						]
+					}
+				]
 			}
 		];
 	}

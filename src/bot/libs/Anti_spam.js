@@ -16,27 +16,30 @@ class Anti_spam {
 			this.guilds.set(msg.guild.id, new Map());
 			return;
 		}
-		const members_msg = guild.get(msg.member.id);
-		if (members_msg == undefined) {
-			guild.set(msg.member.id, [msg]);
-			this.guilds.set(msg.guild.id, guild);
-			time_out_member = setTimeout((() => {
-				const _guild = this.guilds.get(msg.guild.id);
-				_guild.delete(msg.member.id);
-			}), this.time_out);
-			return;
+		if (msg && msg.member && msg.member.id) {
+			const members_msg = guild.get(msg.member.id);
+			if (members_msg == undefined) {
+				guild.set(msg.member.id, [msg]);
+				this.guilds.set(msg.guild.id, guild);
+				time_out_member = setTimeout((() => {
+					const _guild = this.guilds.get(msg.guild.id);
+					_guild.delete(msg.member.id);
+				}), this.time_out);
+				return;
+			}
+			if (members_msg.length >= this.msg_to_mute) {
+				msg.member.timeout(60 * 1000, "Перестаньте спамить в чат").catch((err) => console.log(`${msg.guild.toString()} ошибка мута человека`));
+				clearTimeout(time_out_member);
+				guild.delete(msg.member.id);
+				this.guilds.set(msg.guild.id, guild);
+				members_msg.forEach(m => {
+					m.delete().catch(err => console.log(err));
+				});
+			} else {
+				members_msg.push(msg);
+			}
 		}
-		if (members_msg.length >= this.msg_to_mute) {
-			clearTimeout(time_out_member);
-			guild.delete(msg.member.id);
-			this.guilds.set(msg.guild.id, guild);
-			members_msg.forEach(m => {
-				m.delete().catch(err => console.log(err));
-			});
-			msg.member.timeout(60 * 1000, "Перестаньте спамить в чат").catch((err) => console.log(`${msg.guild.toString()} ошибка мута человека`));
-		} else {
-			members_msg.push(msg);
-		}
+
 	}
 	set_handler() {
 		this.Bot.on("messageCreate", msg => {

@@ -15,6 +15,14 @@
         "load": true,
         "type": "moder"
     },
+    "anti_url":{
+        "name": "anti_url",
+	    "description": " | слеш команда для управления анти ссылками",
+	    "visibility": true,
+	    "priority": 1.1,
+        "load": true,
+        "type": "moder"
+    },
     "new_members": {
         "name": "new_members",
 	    "description": " | слеш команда для управления оповещениями о новых юзерах",
@@ -46,5 +54,13 @@
 	    "priority": 4,
         "load": true,
         "type": "info"
+    },
+    "url":{
+        "name": "url",
+	    "description": " | слеш команда для отправки ссылок(видна только при включенном ant_url)",
+	    "visibility": true,
+	    "priority": 5,
+        "load": true,
+        "type": "etc"
     }
 }

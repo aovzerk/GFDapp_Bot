@@ -17,6 +17,11 @@ class Analyzer_help_menu {
 				"label": "Настрйоки сервера",
 				"description": "Команды для настрйоки сервера",
 				"value": "set_g"
+			},
+			{
+				"label": "Разное",
+				"description": "Разные команды",
+				"value": "etc"
 			}
 		];
 		this.select_menu = new MessageSelectMenu()
@@ -29,6 +34,7 @@ class Analyzer_help_menu {
 		this.types.set("info", "Команды получения информации");
 		this.types.set("moder", "Команды для модерации");
 		this.types.set("set_g", "Команды для настрйоки сервера");
+		this.types.set("etc", "Разные команды");
 	}
 	init() {
 		this.set_handler();

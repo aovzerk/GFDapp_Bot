@@ -22,7 +22,10 @@ class Command extends Base_Command {
 			embed.setDescription("У вас нет права **Администратор**");
 			return args.inter.reply({ "embeds": [embed], "ephemeral": true });
 		}
-
+		if (!this.check_admin(args.inter.guild.me)) {
+			embed.setDescription("У **Бота** нет права **Администратор**");
+			return args.inter.reply({ "embeds": [embed], "ephemeral": true });
+		}
 		const status_channel_stat = args.inter.options.getInteger("status");
 		const channel_privat_id = args.server_db.get("channel_privat");
 		const channel_caregory_privat_id = args.server_db.get("channel_caregory_privat");

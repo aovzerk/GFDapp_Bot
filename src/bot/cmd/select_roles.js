@@ -23,6 +23,9 @@ class Command extends Base_Command {
 		if (!this.check_admin(args.msg.member)) {
 			return this.sendError({ "description_error": "У вас нет прав **Администратора**", "mess": args.msg });
 		}
+		if (!this.check_admin(args.msg.guild.me)) {
+			return this.sendError({ "description_error": "У **Бота** нет прав **Администратора**", "mess": args.msg });
+		}
 		const embed = new MessageEmbed();
 		if (args.args[1] == "") {
 			embed.setDescription("Ошибка, нет аргументов");
