@@ -1,65 +1,65 @@
 {
     "get_prefix":{
         "name": "get_prefix",
-	    "description": " | слеш команда для отображения префикса",
-	    "visibility": true,
-	    "priority": 0,
+        "description": " | слеш команда для отображения префикса",
+        "visibility": true,
+        "priority": 0,
         "load": true,
         "type": "info"
     },
     "anti_spam":{
         "name": "anti_spam",
-	    "description": " | слеш команда для управления анти спамом",
-	    "visibility": true,
-	    "priority": 1,
+        "description": " | слеш команда для управления анти спамом",
+        "visibility": true,
+        "priority": 1,
         "load": true,
         "type": "moder"
     },
     "anti_url":{
         "name": "anti_url",
-	    "description": " | слеш команда для управления анти ссылками",
-	    "visibility": true,
-	    "priority": 1.1,
+        "description": " | слеш команда для управления анти ссылками",
+        "visibility": true,
+        "priority": 1.1,
         "load": true,
         "type": "moder"
     },
     "new_members": {
         "name": "new_members",
-	    "description": " | слеш команда для управления оповещениями о новых юзерах",
-	    "visibility": true,
-	    "priority": 2,
+        "description": " | слеш команда для управления оповещениями о новых юзерах",
+        "visibility": true,
+        "priority": 2,
         "load": true,
         "type": "set_g"
     },
     "channel_stat":{
         "name": "channel_stat",
-	    "description": " | слеш команда для управления каналами статистики",
-	    "visibility": true,
-	    "priority": 3,
+        "description": " | слеш команда для управления каналами статистики",
+        "visibility": true,
+        "priority": 3,
         "load": true,
         "type": "set_g"
     },
     "private_channel":{
         "name": "private_channel",
-	    "description": " | слеш команда для управления приватками",
-	    "visibility": true,
-	    "priority": 4,
+        "description": " | слеш команда для управления приватками",
+        "visibility": true,
+        "priority": 4,
         "load": true,
         "type": "set_g"
     },
     "help":{
         "name": "help",
-	    "description": " | слеш команда для просмотра команд",
-	    "visibility": true,
-	    "priority": 4,
+        "description": " | слеш команда для просмотра команд",
+        "visibility": true,
+        "priority": 4,
         "load": true,
         "type": "info"
     },
     "url":{
         "name": "url",
-	    "description": " | слеш команда для отправки ссылок(видна только при включенном ant_url)",
-	    "visibility": true,
-	    "priority": 5,
+        "description": " | слеш команда для отправки ссылок(видна только при включенном ant_url)",
+        "visibility": true,
+        "priority": 5,
         "load": true,
         "type": "etc"
     }

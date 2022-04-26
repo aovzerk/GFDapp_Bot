@@ -21,8 +21,8 @@ class Anti_url {
 		this.Bot.on("messageCreate", (msg) => {
 			if (msg.client.Start && msg.author.id != msg.client.user.id) {
 				msg.client.Db_manager.get_server(msg.guild).then((server_db) => {
-					const settings_anti_url = server_db.get("anti_url");
-					if (settings_anti_url == 1 || settings_anti_url == "1") {
+					const settings_anti_url = Number(server_db.get("anti_url"));
+					if (settings_anti_url == 1) {
 						const detet_urls = this.test_urls_on_string(msg.content);
 						const white_urls_on_msg = [];
 						this.white_list.forEach((white_url) => {

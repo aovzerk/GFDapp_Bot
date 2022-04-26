@@ -48,7 +48,18 @@ class Command extends Base_Command {
 		const embed = new MessageEmbed()
 			.setTitle("Меню бота GFDapp");
 		const row = new MessageActionRow().addComponents(select_ment);
-		args.inter.reply({ "embeds": [embed], "components": [row] });
+		args.inter.reply({ "embeds": [embed], "components": [row] }).then(() => {
+			args.inter.fetchReply().then((msg) => {
+				const guild = args.Bot.Analyzer_help_menu.guilds.get(msg.guild.id);
+				if (guild != undefined || guild != null) {
+					guild.set(args.inter.member.id, msg.id);
+				} else {
+					args.Bot.Analyzer_help_menu.guilds.set(msg.guild.id, new Map());
+					const guild_ = args.Bot.Analyzer_help_menu.guilds.get(msg.guild.id);
+					guild_.set(args.inter.member.id, msg.id);
+				}
+			});
+		});
 	}
 }
 module.exports = new Command(description_command);

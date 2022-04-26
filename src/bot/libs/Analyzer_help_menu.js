@@ -35,6 +35,7 @@ class Analyzer_help_menu {
 		this.types.set("moder", "Команды для модерации");
 		this.types.set("set_g", "Команды для настрйоки сервера");
 		this.types.set("etc", "Разные команды");
+		this.guilds = new Map();
 	}
 	init() {
 		this.set_handler();
@@ -43,16 +44,24 @@ class Analyzer_help_menu {
 		this.Bot.on("interactionCreate", (interaction) => {
 			if (!interaction.isSelectMenu()) return;
 			if (interaction.customId != "menu_help") return;
-			interaction.client.Db_manager.get_server(interaction.guild).then((server_db) => {
-				const prefix = server_db.get("prefix");
-				const page = this.get_help_list(interaction.values[0], prefix);
-				const title = this.types.get(interaction.values[0]);
-				const embed = new MessageEmbed()
-					.setTitle(title)
-					.setDescription(page);
-				const row = new MessageActionRow().addComponents(this.select_menu);
-				interaction.update({ "embeds": [embed], "components": [row] });
-			});
+			const guild = this.guilds.get(interaction.guild.id);
+			if (guild == undefined || guild == null) return interaction.reply({ "content": "``Вы не владелец этого сообщения``", "ephemeral": true });
+			const msg_member_id = guild.get(interaction.member.id);
+			if (msg_member_id == interaction.message.id) {
+				interaction.client.Db_manager.get_server(interaction.guild).then((server_db) => {
+					const prefix = server_db.get("prefix");
+					const page = this.get_help_list(interaction.values[0], prefix);
+					const title = this.types.get(interaction.values[0]);
+					const embed = new MessageEmbed()
+						.setTitle(title)
+						.setDescription(page);
+					const row = new MessageActionRow().addComponents(this.select_menu);
+					interaction.update({ "embeds": [embed], "components": [row] });
+				});
+			} else {
+				interaction.reply({ "content": "``Вы не владелец этого сообщения``", "ephemeral": true });
+			}
+
 
 		});
 	}

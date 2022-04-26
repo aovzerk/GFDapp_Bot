@@ -1,49 +1,49 @@
 {
     "test":{
         "name": "test",
-	    "description": "  ``<voice/text> <участник> <время>`` [причина] | мут",
-	    "visibility": false,
-	    "priority": 0,
+        "description": "  ``<voice/text> <участник> <время>`` [причина] | мут",
+        "visibility": false,
+        "priority": 0,
         "load": true,
         "type": "set_g"
     },
     "set_prefix":{
         "name": "set_prefix",
-	    "description": " ``<prefix>`` | установить префикс сервера",
-	    "visibility": true,
-	    "priority": 0,
+        "description": " ``<prefix>`` | установить префикс сервера",
+        "visibility": true,
+        "priority": 0,
         "load": true,
         "type": "set_g"
     },
     "add_rolesNM":{
         "name": "add_rolesNM",
-	    "description": " ``<@role> <@role>`` ... | Выдавать роли новым пользователям(если аргументы пустые то роли при входе не будут выдаваться)",
-	    "visibility": true,
-	    "priority": 1,
+        "description": " ``<@role> <@role>`` ... | Выдавать роли новым пользователям(если аргументы пустые то роли при входе не будут выдаваться)",
+        "visibility": true,
+        "priority": 1,
         "load": true,
         "type": "moder"
     },
     "add_roles_voice":{
         "name": "add_roles_voice",
-	    "description": " ``<@role> <@role>`` ... | Выдавать роли нпри заходе в голосовой канал(если аргументы пустые то роли при входе не будут выдаваться)",
-	    "visibility": true,
-	    "priority": 2,
+        "description": " ``<@role> <@role>`` ... | Выдавать роли нпри заходе в голосовой канал(если аргументы пустые то роли при входе не будут выдаваться)",
+        "visibility": true,
+        "priority": 2,
         "load": true,
         "type": "moder"
     },
     "set_channels_read":{
         "name": "set_channels_read",
-	    "description": " ``<#канал> <#канал>`` ... | Установить канал(ы) считывания сообщений(если аргументы пустые то считываюстя все каналы)",
-	    "visibility": true,
-	    "priority": 3,
+        "description": " ``<#канал> <#канал>`` ... | Установить канал(ы) считывания сообщений(если аргументы пустые то считываюстя все каналы)",
+        "visibility": true,
+        "priority": 3,
         "load": true,
         "type": "set_g"
     },
     "select_roles":{
         "name": "select_roles",
-	    "description": " ``<@role> <@role>`` ... | Создать меню с выбором ролей",
-	    "visibility": true,
-	    "priority": 4,
+        "description": " ``<@role> <@role>`` ... | Создать меню с выбором ролей",
+        "visibility": true,
+        "priority": 4,
         "load": true,
         "type": "moder"
     }
