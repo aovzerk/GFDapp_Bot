@@ -62,5 +62,13 @@
         "priority": 5,
         "load": true,
         "type": "etc"
+    },
+    "idea":{
+        "name": "idea",
+        "description": " | Отправить идею для бота",
+        "visibility": true,
+        "priority": 6,
+        "load": true,
+        "type": "etc"
     }
 }

@@ -29,6 +29,7 @@ class Bot_status {
 		});
 	}
 	set_interval() {
+		clearInterval(this.interval);
 		this.interval = setInterval(() => this.set_activity(), 10 * 60 * 1000);
 	}
 }

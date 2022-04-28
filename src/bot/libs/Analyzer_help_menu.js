@@ -4,6 +4,11 @@ class Analyzer_help_menu {
 		this.Bot = Bot;
 		const options = [
 			{
+				"label": "Музыка",
+				"description": "Музыкальные команды",
+				"value": "music"
+			},
+			{
 				"label": "Информация",
 				"description": "Команды получения информации",
 				"value": "info"
@@ -35,6 +40,7 @@ class Analyzer_help_menu {
 		this.types.set("moder", "Команды для модерации");
 		this.types.set("set_g", "Команды для настрйоки сервера");
 		this.types.set("etc", "Разные команды");
+		this.types.set("music", "Музыкальные команды");
 		this.guilds = new Map();
 	}
 	init() {

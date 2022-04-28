@@ -46,6 +46,78 @@
         "priority": 4,
         "load": true,
         "type": "moder"
+    },
+    "play":{
+        "name": "play",
+        "description": " ``<song>`` | возпроизвести музыку",
+        "visibility": true,
+        "priority": 0,
+        "load": true,
+        "type": "music"
+    },
+    "stop":{
+        "name": "stop",
+        "description": " | остановить музыку",
+        "visibility": true,
+        "priority": 1,
+        "load": true,
+        "type": "music"
+    },
+    "skip":{
+        "name": "skip",
+        "description": " | скипнуть стрек",
+        "visibility": true,
+        "priority": 3,
+        "load": true,
+        "type": "music"
+    },
+    "queue":{
+        "name": "queue",
+        "description": " | посмотреть очередь",
+        "visibility": true,
+        "priority": 4,
+        "load": true,
+        "type": "music"
+    },
+    "playlist":{
+        "name": "playlist",
+        "description": " ``<playlist>`` | воспроизвести плелист",
+        "visibility": true,
+        "priority": 1.1,
+        "load": true,
+        "type": "music"
+    },
+    "np":{
+        "name": "np",
+        "description": " | посмотреть чт осейчас играет",
+        "visibility": true,
+        "priority": 1.2,
+        "load": true,
+        "type": "music"
+    },
+    "set_dj":{
+        "name": "set_dj",
+        "description": " ``<@user>`` | установить Dj",
+        "visibility": true,
+        "priority": 5,
+        "load": true,
+        "type": "music"
+    },
+    "ed_bump":{
+        "name": "ed_bump",
+        "description": " ``<@role> <@role>`` ... | Включить оповещения о бампах (с пустыми аргументами выключить)",
+        "visibility": true,
+        "priority": 5,
+        "load": true,
+        "type": "set_g"
+    },
+    "bump":{
+        "name": "bump",
+        "description": " | посмотреть бампы",
+        "visibility": true,
+        "priority": 4,
+        "load": true,
+        "type": "info"
     }
 
 }

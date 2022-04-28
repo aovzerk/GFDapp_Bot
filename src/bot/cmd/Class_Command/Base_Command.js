@@ -32,7 +32,7 @@ class Base_Command {
 	sendError(args) {
 		this.sendEmbed({ "mess": args.mess, "description": args.description_error, "title": `Ошибка команды \`\`${this.description.name}\`\` ` });
 	}
-	async sendEmbed(cfg) {
+	sendEmbed(cfg) {
 		const embed = new MessageEmbed();
 		// embed.setColor("#aa12a6");
 		embed.setTitle(cfg.title);
@@ -41,10 +41,12 @@ class Base_Command {
 		if (cfg.image != undefined || cfg.image != null) {
 			embed.setImage(cfg.image);
 		}
-		const msg = await cfg.mess.channel.send({ "embeds": [embed] });
-		if (cfg.delete == true) {
-			setTimeout(async () => {await msg.delete();}, 5000);
-		}
+		cfg.mess.channel.send({ "embeds": [embed] }).then(new_msg => {
+			if (cfg.delete == true) {
+				setTimeout(() => { new_msg.delete();}, 5000);
+			}
+		});
+
 	}
 }
 module.exports = Base_Command;

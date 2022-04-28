@@ -1,3 +1,4 @@
+const importFresh = require("import-fresh");
 const fs = require("fs");
 const { Collection } = require("discord.js");
 class Loader_base_modules {
@@ -16,7 +17,7 @@ class Loader_base_modules {
 		const handlers_files = fs.readdirSync("./src/bot/handlers").filter(file => file.endsWith(".js"));
 		console.log("Загрузка хендлеров");
 		for (const file of handlers_files) {
-			const handler = require(`../handlers/${file}`);
+			const handler = importFresh(`../handlers/${file}`);
 			if (handler.once) {
 				this.Bot.once(handler.name, (...args) => handler.run(...args));
 				console.log(`${file} Загружен`);
@@ -30,7 +31,7 @@ class Loader_base_modules {
 		const comm_files = fs.readdirSync("./src/bot/cmd/").filter(file => file.endsWith(".js"));
 		console.log("Загрузка команд");
 		for (const file of comm_files) {
-			const command = require(`../cmd/${file}`);
+			const command = importFresh(`../cmd/${file}`);
 			if (command.description.load) {
 				this.Bot.commands.set(command.description.name, command);
 				console.log(`${file} Загружен`);
@@ -43,7 +44,7 @@ class Loader_base_modules {
 		const comm_files = fs.readdirSync("./src/bot/slash_cmd/").filter(file => file.endsWith(".js"));
 		console.log("Загрузка слеш команд");
 		for (const file of comm_files) {
-			const command = require(`../slash_cmd/${file}`);
+			const command = importFresh(`../slash_cmd/${file}`);
 			if (command.description.load) {
 				this.Bot.commands_slash.set(command.description.name, command);
 				console.log(`${file} Загружен`);

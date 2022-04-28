@@ -53,8 +53,6 @@ class Update_create_channel_stats {
 					});
 				});
 			});
-
-
 		});
 	}
 	update_channels(server_db, guild) {

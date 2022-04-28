@@ -75,9 +75,9 @@ class Private_channel_system {
 					const channel_privat_id = server_db.get("channel_privat");
 					if (channel_caregory_privat_id != null || channel_privat_id != null) {
 						server_db.guild.channels.fetch(channel_caregory_privat_id).then(category => {
-							category.children.forEach(async channel_ => {
+							category.children.forEach(channel_ => {
 								if (channel_.id != channel_privat_id && channel_.members.size == 0) {
-									await channel_.delete();
+									channel_.delete();
 								}
 							});
 						});
@@ -90,7 +90,7 @@ class Private_channel_system {
 				const channel_category_id = server_db.get("channel_caregory_privat");
 				const channel_privat_id = server_db.get("channel_privat");
 				if (channel_category_id == null || channel_privat_id == null) return;
-				if ((!oldState.channel && newState.channel.id == channel_privat_id) || (oldState.channel && oldState.channel.parentId != channel_category_id && newState.channel.id == channel_privat_id)) {
+				if ((!oldState.channel && newState.channel && newState.channel.id == channel_privat_id) || (oldState.channel && oldState.channel.parentId != channel_category_id && newState.channel && newState.channel.id == channel_privat_id)) {
 					const guild = this.guilds.get(oldState.guild.id);
 					if (guild == undefined || guild == null) {
 						this.guilds.set(oldState.guild.id, new Map());

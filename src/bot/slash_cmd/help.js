@@ -19,6 +19,11 @@ class Command extends Base_Command {
 	run(args) {
 		const options = [
 			{
+				"label": "Музыка",
+				"description": "Музыкальные команды",
+				"value": "music"
+			},
+			{
 				"label": "Информация",
 				"description": "Команды получения информации",
 				"value": "info"
@@ -58,6 +63,7 @@ class Command extends Base_Command {
 					const guild_ = args.Bot.Analyzer_help_menu.guilds.get(msg.guild.id);
 					guild_.set(args.inter.member.id, msg.id);
 				}
+				setTimeout(() => msg.delete().catch(err => console.log(err)), 3 * 60 * 1000);
 			});
 		});
 	}

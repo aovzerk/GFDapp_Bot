@@ -1,7 +1,7 @@
 class Initializer_global_slash {
 	constructor(Bot) {
 		this.Bot = Bot;
-		this._start = 0;
+		this._start = 1;
 		this.commands = [
 			{
 				"name": "get_prefix",
@@ -124,6 +124,26 @@ class Initializer_global_slash {
 						]
 					}
 				]
+			},
+			{
+				"name": "idea",
+				"description": "Ваша идея для бота"
+			},
+			{
+				"name": "Аватарка",
+				"type": 2
+			},
+			{
+				"name": "Обнять",
+				"type": 2
+			},
+			{
+				"name": "Погладить",
+				"type": 2
+			},
+			{
+				"name": "Баннер",
+				"type": 2
 			}
 		];
 	}

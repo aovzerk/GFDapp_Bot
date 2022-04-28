@@ -78,6 +78,41 @@ Server_m.init({
 		"type": DataTypes.BOOLEAN,
 		"allowNull": false,
 		"defaultValue": false
+	},
+	"bump": {
+		"type": DataTypes.BOOLEAN,
+		"allowNull": false,
+		"defaultValue": false
+	},
+	"roles_bump": {
+		"type": DataTypes.STRING,
+		"allowNull": true,
+		"defaultValue": null
+	},
+	"channel_bump": {
+		"type": DataTypes.STRING,
+		"allowNull": true,
+		"defaultValue": null
+	},
+	"bump_like": {
+		"type": DataTypes.STRING,
+		"allowNull": true,
+		"defaultValue": 0
+	},
+	"bump_up": {
+		"type": DataTypes.STRING,
+		"allowNull": true,
+		"defaultValue": 0
+	},
+	"bump_bump": {
+		"type": DataTypes.STRING,
+		"allowNull": true,
+		"defaultValue": 0
+	},
+	"bump_dbump": {
+		"type": DataTypes.STRING,
+		"allowNull": true,
+		"defaultValue": 0
 	}
 }, {
 	sequelize,

@@ -1,3 +1,4 @@
+const importFresh = require("import-fresh");
 class Model_settings_manager {
 	constructor(guild, db_result) {
 		this.guild = guild;
@@ -23,7 +24,7 @@ class Model_settings_manager {
 class Db_manager {
 	constructor(Bot) {
 		this.Bot = Bot;
-		this.Server_m = require("../../db/models/Server_m");
+		this.Server_m = importFresh("../../db/models/Server_m");
 	}
 	init() {
 		this.sync_tabels();
