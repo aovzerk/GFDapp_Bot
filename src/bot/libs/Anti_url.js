@@ -19,52 +19,57 @@ class Anti_url {
 	}
 	set_handler() {
 		this.Bot.on("messageCreate", (msg) => {
-			if (msg.client.Start && msg.author.id != msg.client.user.id) {
-				msg.client.Db_manager.get_server(msg.guild).then((server_db) => {
-					const settings_anti_url = Number(server_db.get("anti_url"));
-					if (settings_anti_url == 1) {
-						const detet_urls = this.test_urls_on_string(msg.content);
-						const white_urls_on_msg = [];
-						this.white_list.forEach((white_url) => {
-							detet_urls.forEach(url => {
-								if (url.includes(white_url)) {
-									white_urls_on_msg.push(url);
-								}
-							});
+			this.analys(msg);
+		});
+		this.Bot.on("messageUpdate", (oldMsg, newMsg) => {
+			this.analys(newMsg);
+		});
+	}
+	analys(msg) {
+		if (msg.client.Start && msg.author.id != msg.client.user.id) {
+			msg.client.Db_manager.get_server(msg.guild).then((server_db) => {
+				const settings_anti_url = Number(server_db.get("anti_url"));
+				if (settings_anti_url == 1) {
+					const detet_urls = this.test_urls_on_string(msg.content);
+					const white_urls_on_msg = [];
+					this.white_list.forEach((white_url) => {
+						detet_urls.forEach(url => {
+							if (url.includes(white_url)) {
+								white_urls_on_msg.push(url);
+							}
 						});
-						if (white_urls_on_msg.length != detet_urls.length) {
-							msg.guild.invites.fetch().then(invites => {
-								const white_invites = [];
-								invites.forEach((invite) => {
-									detet_urls.forEach((url) => {
-										if (invite.toString() == url) {
-											white_invites.push(invite.toString());
-										}
-									});
-								});
-								const white_channels = [];
-								detet_urls.forEach(url => {
-									if (url.includes(`${this.white_channels}${msg.guild.id}`)) {
-										white_channels.push(url);
+					});
+					if (white_urls_on_msg.length != detet_urls.length) {
+						msg.guild.invites.fetch().then(invites => {
+							const white_invites = [];
+							invites.forEach((invite) => {
+								detet_urls.forEach((url) => {
+									if (invite.toString() == url) {
+										white_invites.push(invite.toString());
 									}
 								});
-								if (white_invites.length + white_urls_on_msg.length + white_channels.length != detet_urls.length) {
-									msg.delete();
-									const embed = new MessageEmbed()
-										.setTitle("Обнаружена ссылка")
-										.setDescription(`${msg.member.toString()}, ипользуйте **/url** для публикации ссылок`);
-									msg.channel.send({ "embeds": [embed] }).then(new_msg => {
-										setTimeout(() => new_msg.delete(), 5000);
-									});
+							});
+							const white_channels = [];
+							detet_urls.forEach(url => {
+								if (url.includes(`${this.white_channels}${msg.guild.id}`)) {
+									white_channels.push(url);
 								}
 							});
-						}
+							if (white_invites.length + white_urls_on_msg.length + white_channels.length != detet_urls.length) {
+								msg.delete();
+								const embed = new MessageEmbed()
+									.setTitle("Обнаружена ссылка")
+									.setDescription(`${msg.member.toString()}, ипользуйте **/url** для публикации ссылок`);
+								msg.channel.send({ "embeds": [embed] }).then(new_msg => {
+									setTimeout(() => new_msg.delete(), 5000);
+								});
+							}
+						});
 					}
+				}
 
-				});
-			}
-
-		});
+			});
+		}
 	}
 	test_urls_on_string(str) {
 		const trim_str = str.trim();

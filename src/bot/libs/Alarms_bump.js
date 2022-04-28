@@ -21,6 +21,9 @@ class Alarms_bump {
 		this.Bot.on("messageCreate", msg => {
 			this.analys(msg);
 		});
+		this.Bot.on("messageUpdate", (oldMsg, newMsg) => {
+			this.analys(newMsg);
+		});
 	}
 	first_start() {
 		this.Bot.Db_manager.get_all_servers().then(servers_db => {

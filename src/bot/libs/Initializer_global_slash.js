@@ -1,3 +1,5 @@
+const fetch = require("node-fetch");
+
 class Initializer_global_slash {
 	constructor(Bot) {
 		this.Bot = Bot;
@@ -27,7 +29,8 @@ class Initializer_global_slash {
 							}
 						]
 					}
-				]
+				],
+				"default_member_permissions": 8
 			},
 			{
 				"name": "new_members",
@@ -53,7 +56,8 @@ class Initializer_global_slash {
 						"description": "Выключение оповещения о новых юзерах",
 						"type": 1
 					}
-				]
+				],
+				"default_member_permissions": 8
 			},
 			{
 				"name": "channel_stat",
@@ -75,7 +79,8 @@ class Initializer_global_slash {
 							}
 						]
 					}
-				]
+				],
+				"default_member_permissions": 8
 			},
 			{
 				"name": "private_channel",
@@ -97,7 +102,8 @@ class Initializer_global_slash {
 							}
 						]
 					}
-				]
+				],
+				"default_member_permissions": 8
 			},
 			{
 				"name": "help",
@@ -123,7 +129,8 @@ class Initializer_global_slash {
 							}
 						]
 					}
-				]
+				],
+				"default_member_permissions": 8
 			},
 			{
 				"name": "idea",
@@ -157,11 +164,35 @@ class Initializer_global_slash {
 	}
 	create_slash(Client) {
 		if (this._start) {
-			Client.application.commands.set(this.commands).then(() => {
-				console.log("Глобальные команды успешно установлены");
-			}).catch(err => console.log(err));
+			const url = `https://discord.com/api/v9/applications/${Client.user.id}/commands`;
+			this.commands.forEach((command, i) => {
+				setTimeout(() => this.send_data({ "method": "POST", "body": JSON.stringify(command), "url": url, "token": global.main_config.token }), i * 5000);
+			});
 		}
 
+	}
+	send_data(options) {
+		const { method, body, url, token } = options;
+		let { get_json } = options;
+		if (get_json == undefined) get_json = true;
+		return new Promise((result, reject) => {
+			fetch(url, {
+				"method": method,
+				"body": body,
+				"headers": {
+					"Authorization": `Bot ${token}`,
+					"Content-Type": "application/json"
+				}
+			}).then(response => {
+				response.json().then(data => {
+					if (data.global == false) {
+						console.log(data);
+					} else {
+						console.log(`COMMANDS SLASH GLOBAL ${data.name} команда проинициализирвоана`);
+					}
+				});
+			}).catch(err => reject(err));
+		});
 	}
 }
 module.exports = (Bot) => {
