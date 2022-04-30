@@ -20,7 +20,7 @@ class Command extends Base_Command {
 		super(description);
 	}
 	run(args) {
-		args.msg.delete();
+		args.msg.delete().catch(err => console.log(err));
 		const guildQueue = args.Bot.player.getQueue(args.msg.guild.id);
 		let song_request = "";
 		for (let i = 1; i < args.args.length; i++) {

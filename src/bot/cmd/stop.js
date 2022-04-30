@@ -20,7 +20,7 @@ class Command extends Base_Command {
 		super(description);
 	}
 	run(args) {
-		args.msg.delete();
+		args.msg.delete().catch(err => console.log(err));
 		const guildQueue = args.Bot.player.getQueue(args.msg.guild.id);
 		if (guildQueue == undefined || guildQueue == null) {
 			args.msg.channel.send({ "content": "В настоящее время ничего не воспроизводиться" }).then(msg => {

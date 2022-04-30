@@ -20,7 +20,7 @@ class Command extends Base_Command {
 		super(description);
 	}
 	run(args) {
-		args.msg.delete();
+		args.msg.delete().catch(err => console.log(err));
 		const guildQueue = args.Bot.player.getQueue(args.msg.guild.id);
 		const user_id = args.args[1].replace("<", "").replace(">", "").replace("!", "").replace("@", "");
 		const member = args.msg.guild.members.cache.get(user_id);

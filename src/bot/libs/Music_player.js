@@ -1,3 +1,4 @@
+/* eslint-disable max-nested-callbacks */
 const { Player } = require("discord-music-player");
 const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 class Music_analys extends Player {
@@ -96,7 +97,7 @@ class Music_analys extends Player {
 						} else {
 							interaction.reply({ "content": "``Скипаю трек``" }).then(() => {
 								interaction.fetchReply().then(_msg => {
-									setTimeout(() => _msg.delete(), 3000);
+									setTimeout(() => _msg.delete().catch(err => console.log(err)), 3000);
 								});
 							});
 							queue.skip();
@@ -112,7 +113,7 @@ class Music_analys extends Player {
 						if (dj == interaction.member.id) {
 							interaction.reply({ "content": "``Начинаю воспроизведение``" }).then(() => {
 								interaction.fetchReply().then(_msg => {
-									setTimeout(() => _msg.delete(), 3000);
+									setTimeout(() => _msg.delete().catch(err => console.log(err)), 3000);
 								});
 							});
 							queue.setPaused(false);
@@ -123,7 +124,7 @@ class Music_analys extends Player {
 					} else if (dj == interaction.member.id) {
 						interaction.reply({ "content": "``Останавливаю воспроизведение``" }).then(() => {
 							interaction.fetchReply().then(_msg => {
-								setTimeout(() => _msg.delete(), 3000);
+								setTimeout(() => _msg.delete().catch(err => console.log(err)), 3000);
 							});
 						});
 						queue.setPaused(true);
@@ -134,14 +135,14 @@ class Music_analys extends Player {
 				case "queue_song":
 					interaction.reply({ "embeds": [this.get_queue(queue)] }).then(() => {
 						interaction.fetchReply().then(_msg => {
-							setTimeout(() => _msg.delete(), 1 * 60 * 1000);
+							setTimeout(() => _msg.delete().catch(err => console.log(err)), 1 * 60 * 1000);
 						});
 					});
 					break;
 				case "update_song":
 					interaction.reply({ "content": "``Обновил``" }).then(() => {
 						interaction.fetchReply().then(_msg => {
-							setTimeout(() => _msg.delete(), 3000);
+							setTimeout(() => _msg.delete().catch(err => console.log(err)), 3000);
 						});
 					});
 					this.update_msg(queue, queue.nowPlaying);
@@ -181,7 +182,7 @@ class Music_analys extends Player {
 			.setTitle("Добавлен трек в очередь")
 			.setDescription(`[${song.name}](${song.url})`);
 		msg.channel.send({ "embeds": [embed] }).then(new_msg => {
-			setTimeout(() => new_msg.delete(), 5000);
+			setTimeout(() => new_msg.delete().catch(err => console.log(err)), 5000);
 		});
 	}
 	end_message(queue) {
