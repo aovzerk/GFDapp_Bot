@@ -8,6 +8,9 @@ process.on("uncaughtException", (err, origin) => {
 	console.error(err);
 	console.error(origin);
 });
-
+process.on("unhandledRejection", (err, origin) => {
+	console.error(err);
+	console.error(origin);
+});
 const new_bot = new Bot(global.main_config.cfg_client, global.main_config.token);
 new_bot.init();

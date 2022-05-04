@@ -14,6 +14,11 @@ class Analyzer_help_menu {
 				"value": "info"
 			},
 			{
+				"label": "Экономика",
+				"description": "Команды экономики",
+				"value": "econom"
+			},
+			{
 				"label": "Модерация",
 				"description": "Команды для модерации",
 				"value": "moder"
@@ -41,6 +46,7 @@ class Analyzer_help_menu {
 		this.types.set("set_g", "Команды для настрйоки сервера");
 		this.types.set("etc", "Разные команды");
 		this.types.set("music", "Музыкальные команды");
+		this.types.set("econom", "Экономика");
 		this.guilds = new Map();
 	}
 	init() {

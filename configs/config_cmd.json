@@ -118,6 +118,77 @@
         "priority": 4,
         "load": true,
         "type": "info"
+    },
+    "help":{
+        "name": "help",
+        "description": " | список команд",
+        "visibility": true,
+        "priority": 5,
+        "load": true,
+        "type": "info"
+    },
+    "seek":{
+        "name": "seek",
+        "description": " ``1m, 2mб 2s...`` | перемотать трек",
+        "visibility": true,
+        "priority": 4.9,
+        "load": true,
+        "type": "music"
+    },
+    "daily":{
+        "name": "daily",
+        "description": " | получить ежедневную награду",
+        "visibility": true,
+        "priority": 1,
+        "load": true,
+        "type": "econom"
+    },
+    "reg":{
+        "name": "reg",
+        "description": " | зарегестрироваться в банке",
+        "visibility": true,
+        "priority": 2,
+        "load": true,
+        "type": "econom"
+    },
+    "say":{
+        "name": "say",
+        "description": " ``<файл>`` | сказать embed сообщением от лица бота",
+        "visibility": true,
+        "priority": 1,
+        "load": true,
+        "type": "etc"
+    },
+    "profile":{
+        "name": "profile",
+        "description": " ``<@user>`` | профиль юзера, либо (p)",
+        "visibility": true,
+        "priority": 4,
+        "load": true,
+        "type": "info"
+    },
+    "p":{
+        "name": "p",
+        "description": " ``<@user>`` | профиль юзера, либо (p)",
+        "visibility": false,
+        "priority": 4,
+        "load": true,
+        "type": "info"
+    },
+    "clear":{
+        "name": "clear",
+        "description": " ``N`` | удалить **N** сообщений в канале",
+        "visibility": true,
+        "priority": 7,
+        "load": true,
+        "type": "moder"
+    },
+    "bot_stat":{
+        "name": "bot_stat",
+        "description": "  | статистика бота",
+        "visibility": true,
+        "priority": 5,
+        "load": true,
+        "type": "info"
     }
-
 }

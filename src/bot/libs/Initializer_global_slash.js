@@ -3,7 +3,7 @@ const fetch = require("node-fetch");
 class Initializer_global_slash {
 	constructor(Bot) {
 		this.Bot = Bot;
-		this._start = 1;
+		this._start = 0;
 		this.commands = [
 			{
 				"name": "get_prefix",
@@ -151,6 +151,14 @@ class Initializer_global_slash {
 			{
 				"name": "Баннер",
 				"type": 2
+			},
+			{
+				"name": "Перевести на RUS",
+				"type": 3
+			},
+			{
+				"name": "Перевести на ENG",
+				"type": 3
 			}
 		];
 	}
@@ -163,6 +171,7 @@ class Initializer_global_slash {
 		});
 	}
 	create_slash(Client) {
+		// this.delete_commands(Client, ["Перевести на русский", "Перевести на английский"]);
 		if (this._start) {
 			const url = `https://discord.com/api/v9/applications/${Client.user.id}/commands`;
 			this.commands.forEach((command, i) => {
@@ -193,6 +202,18 @@ class Initializer_global_slash {
 				});
 			}).catch(err => reject(err));
 		});
+	}
+	delete_commands(Client, commands) {
+		Client.application.commands.fetch().then(f_commands => {
+			f_commands.forEach(command => {
+				commands.forEach(d_command => {
+					if (command.name == d_command) {
+						Client.application.commands.delete(command.id).then(() => console.log(`DELETE G COMM ${d_command} удалена`));
+					}
+				});
+			});
+		});
+
 	}
 }
 module.exports = (Bot) => {

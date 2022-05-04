@@ -1,5 +1,5 @@
 /* eslint-disable max-nested-callbacks */
-const { Player } = require("discord-music-player");
+const { Player, RepeatMode } = require("discord-music-player");
 const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 class Music_analys extends Player {
 	constructor(Bot, options) {
@@ -27,6 +27,21 @@ class Music_analys extends Player {
 				new MessageButton()
 					.setCustomId("stop_q")
 					.setLabel("Выключить муызку")
+					.setStyle("PRIMARY")
+			);
+		this.action_row2 = new MessageActionRow()
+			.addComponents(
+				new MessageButton()
+					.setCustomId("repeat_song")
+					.setLabel("Зациклить трек")
+					.setStyle("PRIMARY"),
+				new MessageButton()
+					.setCustomId("repeat_queue")
+					.setLabel("Зациклить очередь")
+					.setStyle("PRIMARY"),
+				new MessageButton()
+					.setCustomId("shuffle_queue")
+					.setLabel("Перемешать очередь")
 					.setStyle("PRIMARY")
 			);
 		this.djs = new Map();
@@ -89,6 +104,64 @@ class Music_analys extends Player {
 			}
 			const dj = this.djs.get(interaction.guild.id);
 			switch (interaction.customId) {
+				case "shuffle_queue":
+					if (dj == interaction.member.id) {
+						interaction.reply({ "content": "``Перемешал``" }).then(() => {
+							interaction.fetchReply().then(_msg => {
+								setTimeout(() => _msg.delete().catch(err => console.log(err)), 3000);
+							});
+						});
+						queue.shuffle();
+					} else {
+						interaction.reply({ "content": "``Вы не Dj``", "ephemeral": true });
+					}
+					break;
+				case "repeat_song":
+					if (dj == interaction.member.id) {
+						if (queue.repeatMode == 1) {
+							interaction.reply({ "content": "``Выключил режим зацикливания трека``" }).then(() => {
+								interaction.fetchReply().then(_msg => {
+									setTimeout(() => _msg.delete().catch(err => console.log(err)), 3000);
+								});
+								queue.setRepeatMode(RepeatMode.DISABLED);
+								this.update_msg(queue, queue.nowPlaying);
+							});
+						} else {
+							interaction.reply({ "content": "``Зациклил трек``" }).then(() => {
+								interaction.fetchReply().then(_msg => {
+									setTimeout(() => _msg.delete().catch(err => console.log(err)), 3000);
+								});
+								queue.setRepeatMode(RepeatMode.SONG);
+								this.update_msg(queue, queue.nowPlaying);
+							});
+						}
+					} else {
+						interaction.reply({ "content": "``Вы не Dj``", "ephemeral": true });
+					}
+					break;
+				case "repeat_queue":
+					if (dj == interaction.member.id) {
+						if (queue.repeatMode == 2) {
+							interaction.reply({ "content": "``Выключил режим зацикливания очереди``" }).then(() => {
+								interaction.fetchReply().then(_msg => {
+									setTimeout(() => _msg.delete().catch(err => console.log(err)), 3000);
+								});
+								queue.setRepeatMode(RepeatMode.DISABLED);
+								this.update_msg(queue, queue.nowPlaying);
+							});
+						} else {
+							interaction.reply({ "content": "``Зациклил очередь``" }).then(() => {
+								interaction.fetchReply().then(_msg => {
+									setTimeout(() => _msg.delete().catch(err => console.log(err)), 3000);
+								});
+								queue.setRepeatMode(RepeatMode.QUEUE);
+								this.update_msg(queue, queue.nowPlaying);
+							});
+						}
+					} else {
+						interaction.reply({ "content": "``Вы не Dj``", "ephemeral": true });
+					}	interaction.reply({ "content": "``Вы не Dj``", "ephemeral": true });
+					break;
 				case "next_song":
 					if (dj == interaction.member.id) {
 						if (queue.songs.length == 1) {
@@ -203,11 +276,25 @@ class Music_analys extends Player {
 		clearInterval(this.intervals.get(queue.guild.id));
 		const msg = this.guilds.get(queue.guild.id);
 		if (msg == undefined || msg == null) return;
+		let mode = "";
+		switch (queue.repeatMode) {
+			case 0:
+				mode = "OFF";
+				break;
+			case 1:
+				mode = "SONG";
+				break;
+			case 2:
+				mode = "QUEUE";
+				break;
+			default:
+				break;
+		}
 		try {
 			const ProgressBar = queue.createProgressBar();
 			const options = {
 				"title": song.name,
-				"description": song.author,
+				"description": `${song.author}\nРежим повтора: ${mode}`,
 				"url": song.url,
 				"thumbnail": {
 					"url": song.thumbnail
@@ -220,11 +307,11 @@ class Music_analys extends Player {
 				]
 			};
 			const embed = new MessageEmbed(options);
-			msg.edit({ "content": "Играю", "embeds": [embed], "components": [this.action_row] });
+			msg.edit({ "content": "Играю", "embeds": [embed], "components": [this.action_row, this.action_row2] });
 		} catch (error) {
 			const options = {
 				"title": song.name,
-				"description": song.author,
+				"description": `${song.author}\nРежим повтора: ${mode}`,
 				"url": song.url,
 				"thumbnail": {
 					"url": song.thumbnail
@@ -240,7 +327,11 @@ class Music_analys extends Player {
 }
 module.exports = (Bot) => {
 	const player = new Music_analys(Bot, {
-		"leaveOnEmpty": true
+		"leaveOnEnd": false,
+		"leaveOnStop": true,
+		"leaveOnEmpty": true,
+		"volume": 100,
+		"quality": "high"
 	});
 	Bot.player = player;
 	Bot.player.init();

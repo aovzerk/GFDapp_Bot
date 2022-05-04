@@ -1,15 +1,17 @@
 const { MessageEmbed, MessageActionRow, MessageSelectMenu } = require("discord.js");
 const Base_Command = require("./Class_Command/Base_Command");
 const name_command = "help";
-const description_command = global.config_slash[name_command];
+const description_command = global.config_cmd[name_command];
 
 /*
 ----args----
 
     "Bot" - сам бот
-	"inter" - interaction которое вызвало эту функцию
-	"server_db" - серверв в базе данных
----
+	"msg" - сообщение которое вызвало эту функцию
+	"args" - аргументы этого сообщения
+	"server_db" - модель сервера в базе данных
+
+----args----
 */
 
 class Command extends Base_Command {
@@ -17,6 +19,7 @@ class Command extends Base_Command {
 		super(description);// GIVE_PERM
 	}
 	run(args) {
+		args.msg.delete();
 		const options = [
 			{
 				"label": "Музыка",
@@ -58,18 +61,16 @@ class Command extends Base_Command {
 		const embed = new MessageEmbed()
 			.setTitle("Меню бота GFDapp");
 		const row = new MessageActionRow().addComponents(select_ment);
-		args.inter.reply({ "embeds": [embed], "components": [row] }).then(() => {
-			args.inter.fetchReply().then((msg) => {
-				const guild = args.Bot.Analyzer_help_menu.guilds.get(msg.guild.id);
-				if (guild != undefined || guild != null) {
-					guild.set(args.inter.member.id, msg.id);
-				} else {
-					args.Bot.Analyzer_help_menu.guilds.set(msg.guild.id, new Map());
-					const guild_ = args.Bot.Analyzer_help_menu.guilds.get(msg.guild.id);
-					guild_.set(args.inter.member.id, msg.id);
-				}
-				setTimeout(() => msg.delete().catch(err => console.log(err)), 3 * 60 * 1000);
-			});
+		args.msg.channel.send({ "embeds": [embed], "components": [row] }).then(msg => {
+			const guild = args.Bot.Analyzer_help_menu.guilds.get(msg.guild.id);
+			if (guild != undefined || guild != null) {
+				guild.set(args.msg.member.id, msg.id);
+			} else {
+				args.Bot.Analyzer_help_menu.guilds.set(msg.guild.id, new Map());
+				const guild_ = args.Bot.Analyzer_help_menu.guilds.get(msg.guild.id);
+				guild_.set(args.msg.member.id, msg.id);
+			}
+			setTimeout(() => msg.delete().catch(err => console.log(err)), 3 * 60 * 1000);
 		});
 	}
 }
