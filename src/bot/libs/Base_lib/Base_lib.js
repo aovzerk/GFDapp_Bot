@@ -10,6 +10,10 @@ class Base_lib {
 		this.callbacks = new Map();
 	}
 	reg_callback(event_name, func, once = false) {
+		const callback = this.callbacks.get(event_name);
+		if (callback != undefined || callback != null) {
+			this.Bot.removeListener(event_name, callback);
+		}
 		this.callbacks.set(event_name, func);
 		if (once) {
 			this.Bot.once(event_name, func);
