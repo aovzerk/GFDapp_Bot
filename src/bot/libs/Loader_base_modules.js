@@ -64,7 +64,7 @@ class Loader_base_modules {
 	reload_cmd(name) {
 		const command = importFresh(`../cmd/${name}`);
 		if (command.description.load) {
-			this.Bot.commands_slash.set(command.description.name, command);
+			this.Bot.commands.set(command.description.name, command);
 			console.log(`${name} Загружен`);
 		}
 		const sorted_command = this.Bot.commands.sort((a, b) => a.description.priority - b.description.priority);

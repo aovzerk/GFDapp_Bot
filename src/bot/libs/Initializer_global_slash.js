@@ -3,8 +3,12 @@ const fetch = require("node-fetch");
 class Initializer_global_slash {
 	constructor(Bot) {
 		this.Bot = Bot;
-		this._start = 0;
+		this._start = 1;
 		this.commands = [
+			{
+				"name": "Профиль",
+				"type": 2
+			},
 			{
 				"name": "get_prefix",
 				"description": "Узнать префикс сервера"

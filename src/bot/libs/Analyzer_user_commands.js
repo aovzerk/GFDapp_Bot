@@ -25,6 +25,9 @@ class Analyzer_user_commands {
 				case "Баннер":
 					this.send_banner(interacion);
 					break;
+				case "Профиль":
+					this.send_profile(interacion);
+					break;
 				default:
 					break;
 			}
@@ -101,6 +104,20 @@ class Analyzer_user_commands {
 			.setTitle("<3 :3")
 			.setImage(url);
 		interacion.reply({ "content": `<@!${interacion.targetId}>`, "embeds": [embed] });
+	}
+	send_profile(interacion) {
+		interacion.deferReply().then(() => {
+			interacion.guild.members.fetch(interacion.targetId).then(member => {
+				const command = this.Bot.commands.get("profile");
+				command.get_embed(this.Bot, member).then(embed => {
+					interacion.editReply({ "embeds": [embed] });
+				});
+			});
+		}).catch(err => {
+			console.log(err);
+			interacion.reply({ "content": "Юзер не найден", "ephemeral": true });
+			return;
+		});
 	}
 	getRandomInt(max) {
 		return Math.floor(Math.random() * max);
