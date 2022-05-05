@@ -59,7 +59,8 @@ class Private_channel_system {
 			member.guild.channels.create(`Комната ${member.user.username}`, { "type": "GUILD_VOICE" }).then(channel => {
 				channel.permissionOverwrites.edit(member, {
 					"MANAGE_CHANNELS": true,
-					"MUTE_MEMBERS": true
+					"MUTE_MEMBERS": true,
+					"MODERATE_MEMBERS": true
 				}).then(new_channel => {
 					resolve(new_channel);
 				});

@@ -11,7 +11,6 @@ class Loader_base_modules {
 		this.init_commands();
 		this.init_commands_slash();
 		this.init_handlers();
-
 	}
 	init_handlers() {
 		const handlers_files = fs.readdirSync("./src/bot/handlers").filter(file => file.endsWith(".js"));

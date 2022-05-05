@@ -7,6 +7,7 @@ module.exports = {
 				member.client.Alarms_add_remove_members.send_alarm(server_db, member);
 				member.client.Manager_roles_NM_Voice.roles_add(server_db, member);
 				member.client.Update_create_channel_stats.update_channels(server_db, member.guild);
+				member.client.Analyzer_auto_kick.analys(server_db, member);
 			});
 		}
 	}

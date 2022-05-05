@@ -64,7 +64,7 @@ class Command extends Base_Command {
 				embed.setDescription("На сервере уже **включен** анти cсылки");
 			} else if (anti_url_opts == 0) {
 				embed.setDescription("На сервере успешно **включен** анти cсылки");
-				args.inter.guild.commands.create(this.command_url);
+				args.inter.guild.commands.create(this.command_url).then(() => console.log("Создана /url")).catch((err) => console.log(err));
 				args.server_db.set("anti_url", 1);
 			}
 		} else if (status_anti_url == 0) {
@@ -73,7 +73,7 @@ class Command extends Base_Command {
 				args.inter.guild.commands.fetch().then(commands => {
 					commands.forEach(command => {
 						if (command.name == "url") {
-							args.inter.guild.commands.delete(command.id);
+							args.inter.guild.commands.delete(command.id).then(() => console.log("Удаена /url")).catch((err) => console.log(err));
 						}
 					});
 				});

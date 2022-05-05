@@ -66,7 +66,6 @@ class Alarms_bump {
 								}
 							});
 						});
-
 					}
 				}
 			});

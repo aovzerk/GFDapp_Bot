@@ -2,6 +2,7 @@ HELP.md
 node_modules
 .eslintrc.json
 .eslintignore
+giveaways.json
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/

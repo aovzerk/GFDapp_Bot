@@ -70,5 +70,29 @@
         "priority": 6,
         "load": true,
         "type": "etc"
+    },
+    "giveaways":{
+        "name": "giveaways",
+        "description": " | слеш команда для управления розыгрышами",
+        "visibility": true,
+        "priority": 5,
+        "load": true,
+        "type": "set_g"
+    },
+    "auto_kick":{
+        "name": "auto_kick",
+        "description": " | слеш команда для управления авто киком",
+        "visibility": true,
+        "priority": 1.2,
+        "load": true,
+        "type": "moder"
+    },
+    "log_channnel":{
+        "name": "log_channnel",
+        "description": " | слеш команда для управления логами бота",
+        "visibility": true,
+        "priority": 5.1,
+        "load": true,
+        "type": "set_g"
     }
 }

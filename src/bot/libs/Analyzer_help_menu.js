@@ -73,8 +73,6 @@ class Analyzer_help_menu {
 			} else {
 				interaction.reply({ "content": "``Вы не владелец этого сообщения``", "ephemeral": true });
 			}
-
-
 		});
 	}
 	get_help_list(type, prefix) {

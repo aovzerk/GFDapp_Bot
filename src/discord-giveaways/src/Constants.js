@@ -23,7 +23,7 @@ exports.GiveawayMessages = {
     giveawayEnded: '🎉🎉 **РОЗЫГРЫШ ЗАКОНЧЕН** 🎉🎉',
     inviteToParticipate: 'Нажми на 🎉 что бы учавствовать!',
     winMessage: 'Поздавляем, {winners}! Вы выйграли **{this.prize}**!\n{this.messageURL}',
-    drawing: 'Drawing: {timestamp}',
+    drawing: 'Закончится: {timestamp}',
     dropMessage: 'Будьте первым кто нажмет на 🎉 !',
     embedFooter: '{this.winnerCount} победитель/ей',
     noWinner: 'Розыгрыш отменен, нет победителей',

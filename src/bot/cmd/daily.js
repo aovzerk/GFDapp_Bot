@@ -33,7 +33,7 @@ class Command extends Base_Command {
 				if (next_work < date) {
 					const prize = this.getRandomInt(101);
 					let balance_member = Number(member_db.get("balance"));
-					balance_member = +prize;
+					balance_member = balance_member + prize;
 					const new_date_work = date + this.hour_4;
 					member_db.set("balance", balance_member);
 					member_db.set("next_work", new_date_work);

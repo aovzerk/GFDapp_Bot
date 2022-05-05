@@ -10,12 +10,62 @@ class Initializer_global_slash {
 				"description": "Узнать префикс сервера"
 			},
 			{
+				"name": "log_channnel",
+				"description": "Включение или выключение логов бота",
+				"options": [
+					{
+						"name": "enable",
+						"description": "Включение логов",
+						"type": 1,
+						"options": [
+							{
+								"name": "channel",
+								"description": "канал для отправки логов",
+								"channel_types": [0],
+								"type": 7,
+								"required": true
+							}
+						]
+
+					},
+					{
+						"name": "disable",
+						"description": "Выключение логов бота",
+						"type": 1
+					}
+				],
+				"default_member_permissions": 8
+			},
+			{
 				"name": "anti_spam",
 				"description": "управление анти спамом на сервере",
 				"options": [
 					{
 						"name": "status",
 						"description": "Включение или выключение анти спама",
+						"type": 4,
+						"required": true,
+						"choices": [
+							{
+								"name": "on",
+								"value": 1
+							},
+							{
+								"name": "off",
+								"value": 0
+							}
+						]
+					}
+				],
+				"default_member_permissions": 8
+			},
+			{
+				"name": "auto_kick",
+				"description": "управление авто киком на сервере",
+				"options": [
+					{
+						"name": "status",
+						"description": "Включение или выключение авто кика",
 						"type": 4,
 						"required": true,
 						"choices": [
@@ -55,6 +105,52 @@ class Initializer_global_slash {
 						"name": "disable",
 						"description": "Выключение оповещения о новых юзерах",
 						"type": 1
+					}
+				],
+				"default_member_permissions": 8
+			},
+			{
+				"name": "giveaways",
+				"description": "Команда управления розыгрышами",
+				"options": [
+					{
+						"name": "start",
+						"description": "Запустить розыгрыш",
+						"type": 1,
+						"options": [
+							{
+								"name": "prize",
+								"description": "что разыгрываем",
+								"type": 3,
+								"required": true
+							},
+							{
+								"name": "winers",
+								"description": "Кол-во побидителей",
+								"type": 4,
+								"required": true
+							},
+							{
+								"name": "duration",
+								"description": "Длительность",
+								"type": 3,
+								"required": true
+							}
+						]
+
+					},
+					{
+						"name": "reroll",
+						"description": "Перевыбрать побидетелй розыгрыша",
+						"type": 1,
+						"options": [
+							{
+								"name": "id_msg",
+								"description": "Id сообщения с розыгрышем",
+								"type": 3,
+								"required": true
+							}
+						]
 					}
 				],
 				"default_member_permissions": 8

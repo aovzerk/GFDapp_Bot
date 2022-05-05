@@ -113,6 +113,16 @@ Server_m.init({
 		"type": DataTypes.STRING,
 		"allowNull": true,
 		"defaultValue": 0
+	},
+	"auto_kick": {
+		"type": DataTypes.BOOLEAN,
+		"allowNull": false,
+		"defaultValue": false
+	},
+	"log_channel": {
+		"type": DataTypes.STRING,
+		"allowNull": true,
+		"defaultValue": null
 	}
 }, {
 	sequelize,

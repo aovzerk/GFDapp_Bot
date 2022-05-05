@@ -912,6 +912,8 @@ class Giveaway extends EventEmitter {
                 }
                 resolve(winners);
             } else {
+                reject("Error")
+                /*
                 const embed = this.fillInEmbed(options.messages.error.embed);
                 channel.send({
                     content: this.fillInString(options.messages.error.content || options.messages.error),
@@ -923,7 +925,7 @@ class Giveaway extends EventEmitter {
                         failIfNotExists: false
                     }
                 });
-                resolve([]);
+                resolve([]);*/
             }
         });
     }

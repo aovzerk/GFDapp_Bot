@@ -44,6 +44,7 @@ class Music_analys extends Player {
 					.setLabel("Перемешать очередь")
 					.setStyle("PRIMARY")
 			);
+		this.ids_int = ["next_song", "pause_song", "queue_song", "update_song", "Выключить муызку", "repeat_song", "repeat_queue", "shuffle_queue"];
 		this.djs = new Map();
 		this.msgs_add = new Map();
 	}
@@ -92,6 +93,7 @@ class Music_analys extends Player {
 		});
 		this.client.on("interactionCreate", (interaction) => {
 			if (!interaction.isButton()) return;
+			if (!this.ids_int.includes(interaction.customId)) return;
 			const queue = this.client.player.getQueue(interaction.guild.id);
 			if (queue == null || queue == undefined) {
 				interaction.reply({ "content": "Этот плеер устарел используйте ``g!np``", "ephemeral": true });
