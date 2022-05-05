@@ -13,12 +13,14 @@ class Loader_base_modules {
 		this.init_commands_slash();
 		this.init_handlers();
 	}
-	init_handlers() {
-		const handlers_files = fs.readdirSync("./src/bot/handlers").filter(file => file.endsWith(".js"));
-		console.log("Загрузка хендлеров");
+	clear_callbacks() {
 		this.call_backs.forEach((callback_f, event_name) => {
 			this.Bot.removeListener(event_name, callback_f);
 		});
+	}
+	init_handlers() {
+		const handlers_files = fs.readdirSync("./src/bot/handlers").filter(file => file.endsWith(".js"));
+		console.log("Загрузка хендлеров");
 		this.call_backs = new Map();
 		for (const file of handlers_files) {
 			const handler = importFresh(`../handlers/${file}`);
@@ -59,9 +61,30 @@ class Loader_base_modules {
 		const sorted_command = this.Bot.commands_slash.sort((a, b) => a.description.priority - b.description.priority);
 		this.Bot.commands_slash = sorted_command;
 	}
+	reload_cmd(name) {
+		const command = importFresh(`../cmd/${name}`);
+		if (command.description.load) {
+			this.Bot.commands_slash.set(command.description.name, command);
+			console.log(`${name} Загружен`);
+		}
+		const sorted_command = this.Bot.commands.sort((a, b) => a.description.priority - b.description.priority);
+		this.Bot.commands = sorted_command;
+	}
+	reload_slash(name) {
+		const command = importFresh(`../slash_cmd/${name}`);
+		if (command.description.load) {
+			this.Bot.commands_slash.set(command.description.name, command);
+			console.log(`${name} Загружен`);
+		}
+		const sorted_command = this.Bot.commands_slash.sort((a, b) => a.description.priority - b.description.priority);
+		this.Bot.commands_slash = sorted_command;
+	}
 }
 
 module.exports = (Bot) => {
+	if (Bot.Loader_base_modules) {
+		Bot.Loader_base_modules.clear_callbacks();
+	}
 	Bot.Loader_base_modules = new Loader_base_modules(Bot);
 	Bot.Loader_base_modules.init();
 };

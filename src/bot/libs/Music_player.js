@@ -91,7 +91,7 @@ class Music_analys extends Player {
 			this.intervals.delete(queue.guild.id);
 			this.end_message(queue);
 		});
-		this.client.on("interactionCreate", (interaction) => {
+		const callback_interactionCreate = (interaction) => {
 			if (!interaction.isButton()) return;
 			if (!this.ids_int.includes(interaction.customId)) return;
 			const queue = this.client.player.getQueue(interaction.guild.id);
@@ -100,6 +100,10 @@ class Music_analys extends Player {
 				return;
 			}
 			const msg = this.guilds.get(queue.guild.id);
+			if (msg == undefined || msg == null) {
+				interaction.reply({ "content": "Этот плеер устарел используйте ``g!np``", "ephemeral": true });
+				return;
+			}
 			if (msg.id != interaction.message.id) {
 				interaction.reply({ "content": "Этот плеер устарел используйте ``g!np``", "ephemeral": true });
 				return;
@@ -233,7 +237,11 @@ class Music_analys extends Player {
 				default:
 					break;
 			}
-		});
+		};
+
+		this.client.removeListener("interactionCreate", callback_interactionCreate);
+
+		this.client.on("interactionCreate", callback_interactionCreate);
 	}
 	get_queue(queue) {
 		const embed = new MessageEmbed()
@@ -328,6 +336,13 @@ class Music_analys extends Player {
 	}
 }
 module.exports = (Bot) => {
+	if (Bot.player) {
+		Bot.player.queues.forEach(queue => {
+			queue.stop();
+			Bot.player.emit("QUEUE_STOPED", queue);
+		});
+
+	}
 	const player = new Music_analys(Bot, {
 		"leaveOnEnd": false,
 		"leaveOnStop": true,

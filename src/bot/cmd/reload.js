@@ -28,14 +28,28 @@ class Command extends Base_Command {
 				setTimeout(() => new_msg.delete(), 5000);
 			});
 			console.log(`LIB ${args.args[2]} Загружен`);
-		} else if (args.args[1] == "cmd") {
+		} else if (args.args[1] == "cmds") {
 			this.reload_cfg();
 			args.msg.delete();
 			args.msg.client.Loader_base_modules.init_commands();
-			args.msg.channel.send({ "content": "``Слеш команды перезагружены``" }).then(new_msg => {
+			args.msg.channel.send({ "content": "``Команды перезагружены``" }).then(new_msg => {
+				setTimeout(() => new_msg.delete(), 5000);
+			});
+		} else if (args.args[1] == "cmd") {
+			this.reload_cfg();
+			args.msg.delete();
+			args.msg.client.Loader_base_modules.reload_cmd(args.args[2]);
+			args.msg.channel.send({ "content": `\`\`Команда ${args.args[2]} перезагружены\`\`` }).then(new_msg => {
 				setTimeout(() => new_msg.delete(), 5000);
 			});
 		} else if (args.args[1] == "slash") {
+			this.reload_cfg();
+			args.msg.delete();
+			args.msg.client.Loader_base_modules.reload_slash(args.args[2]);
+			args.msg.channel.send({ "content": `\`\`Слеш команда ${args.args[2]} перезагружены\`\`` }).then(new_msg => {
+				setTimeout(() => new_msg.delete(), 5000);
+			});
+		} else if (args.args[1] == "slashs") {
 			this.reload_cfg();
 			args.msg.delete();
 			args.msg.client.Loader_base_modules.init_commands_slash();
