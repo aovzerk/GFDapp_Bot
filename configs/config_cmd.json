@@ -198,5 +198,13 @@
         "priority": 7,
         "load": true,
         "type": "moder"
+    },
+    "guild_status":{
+        "name": "guild_status",
+        "description": "  | инфомрмация о сервере",
+        "visibility": true,
+        "priority": 5.1,
+        "load": true,
+        "type": "info"
     }
 }

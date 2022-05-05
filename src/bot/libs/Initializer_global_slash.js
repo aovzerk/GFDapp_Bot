@@ -3,7 +3,7 @@ const Base_lib = require("./Base_lib/Base_lib");
 class Initializer_global_slash extends Base_lib {
 	constructor(Bot) {
 		super(Bot);
-		this._start = 1;
+		this._start = 0;
 		this.commands = [
 			{
 				"name": "Профиль",
