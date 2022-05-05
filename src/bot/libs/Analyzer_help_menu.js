@@ -1,7 +1,8 @@
 const { MessageEmbed, MessageActionRow, MessageSelectMenu } = require("discord.js");
-class Analyzer_help_menu {
+const Base_lib = require("./Base_lib/Base_lib");
+class Analyzer_help_menu extends Base_lib {
 	constructor(Bot) {
-		this.Bot = Bot;
+		super(Bot);
 		const options = [
 			{
 				"label": "Музыка",
@@ -75,9 +76,7 @@ class Analyzer_help_menu {
 			}
 		};
 
-		this.Bot.removeListener("interactionCreate", callback_interactionCreate);
-
-		this.Bot.on("interactionCreate", callback_interactionCreate);
+		this.reg_callback("interactionCreate", callback_interactionCreate);
 	}
 	get_help_list(type, prefix) {
 		let description = "";
@@ -96,6 +95,9 @@ class Analyzer_help_menu {
 	}
 }
 module.exports = (Bot) => {
+	if (Bot.Analyzer_help_menu) {
+		Bot.Analyzer_help_menu.destroy();
+	}
 	Bot.Analyzer_help_menu = new Analyzer_help_menu(Bot);
 	Bot.Analyzer_help_menu.init();
 };

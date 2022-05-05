@@ -1,8 +1,9 @@
 /* eslint-disable max-nested-callbacks */
 const { MessageEmbed } = require("discord.js");
-class Anti_url {
+const Base_lib = require("./Base_lib/Base_lib");
+class Anti_url extends Base_lib {
 	constructor(Bot) {
-		this.Bot = Bot;
+		super(Bot);
 		this.white_list = [
 			"https://github.com/",
 			"https://tenor.com/",
@@ -25,11 +26,8 @@ class Anti_url {
 			this.analys(newMsg);
 		};
 
-		this.Bot.removeListener("messageCreate", call_back_messageCreate);
-		this.Bot.removeListener("messageUpdate", call_back_messageUpdate);
-
-		this.Bot.on("messageCreate", call_back_messageCreate);
-		this.Bot.on("messageUpdate", call_back_messageUpdate);
+		this.reg_callback("messageUpdate", call_back_messageUpdate);
+		this.reg_callback("messageCreate", call_back_messageCreate);
 	}
 	analys(msg) {
 		if (msg.client.Start && msg.author.id != msg.client.user.id) {
@@ -96,6 +94,9 @@ class Anti_url {
 	}
 }
 module.exports = (Bot) => {
+	if (Bot.Anti_url) {
+		Bot.Anti_url.destroy();
+	}
 	Bot.Anti_url = new Anti_url(Bot);
 	Bot.Anti_url.init();
 };

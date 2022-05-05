@@ -6,6 +6,7 @@ class Music_analys extends Player {
 		super(Bot, options);
 		this.guilds = new Map();
 		this.intervals = new Map();
+		this.callbacks = new Map();
 		this.action_row = new MessageActionRow()
 			.addComponents(
 				new MessageButton()
@@ -51,7 +52,26 @@ class Music_analys extends Player {
 	init() {
 		this.set_nadlers();
 	}
-
+	destroy() {
+		this.callbacks.forEach((func, event_name) => {
+			this.client.removeListener(event_name, func);
+		});
+		this.callbacks = new Map();
+	}
+	reg_callback(event_name, func, once = false) {
+		this.callbacks.set(event_name, func);
+		if (once) {
+			this.client.once(event_name, func);
+		} else {
+			this.client.on(event_name, func);
+		}
+	}
+	remove_callback(event_name) {
+		const callback = this.callbacks.get(event_name);
+		if (callback == undefined || callback == null) return;
+		this.client.removeListener(event_name, callback);
+		this.callbacks.delete(event_name);
+	}
 	set_nadlers() {
 		this.on("songFirst", (queue, song) => {
 			this.update_msg(queue, song);
@@ -341,6 +361,7 @@ class Music_analys extends Player {
 }
 module.exports = (Bot) => {
 	if (Bot.player) {
+		Bot.player.destroy();
 		Bot.player.queues.forEach(queue => {
 			queue.stop();
 			Bot.player.emit("QUEUE_STOPED", queue);

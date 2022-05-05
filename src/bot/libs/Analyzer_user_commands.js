@@ -1,8 +1,8 @@
-
 const { MessageEmbed } = require("discord.js");
-class Analyzer_user_commands {
+const Base_lib = require("./Base_lib/Base_lib");
+class Analyzer_user_commands extends Base_lib {
 	constructor(Bot) {
-		this.Bot = Bot;
+		super(Bot);
 		this.ulrs_hug = ["https://cdn.discordapp.com/attachments/942273549148770396/942275139637219358/hug_13.gif", "https://cdn.discordapp.com/attachments/942273549148770396/942275139981180948/hug_11.gif", "https://cdn.discordapp.com/attachments/942273549148770396/942275140308324352/hug_12.gif", "https://cdn.discordapp.com/attachments/942273549148770396/942275093285961758/hug_10.gif", "https://cdn.discordapp.com/attachments/942273549148770396/942275093571178506/hug_1.gif", "https://cdn.discordapp.com/attachments/942273549148770396/942275093915136000/hug_2.gif", "https://cdn.discordapp.com/attachments/942273549148770396/942275094170992670/hug_3.gif", "https://cdn.discordapp.com/attachments/942273549148770396/942275094477160468/hug_4.gif", "https://cdn.discordapp.com/attachments/942273549148770396/942275095005626388/hug_5.gif", "https://cdn.discordapp.com/attachments/942273549148770396/942275095525724210/hug_6.gif", "https://cdn.discordapp.com/attachments/942273549148770396/942275095869673532/hug_7.gif", "https://cdn.discordapp.com/attachments/942273549148770396/942275096272314429/hug_8.gif", "https://cdn.discordapp.com/attachments/942273549148770396/942275097115373618/hug_9.gif"];
 		this.urls_pat = ["https://cdn.discordapp.com/attachments/942273549148770396/942275924399894568/pat_8.gif", "https://cdn.discordapp.com/attachments/942273549148770396/942275924697702400/pat_1.gif", "https://cdn.discordapp.com/attachments/942273549148770396/942275925284900884/pat_2.gif", "https://cdn.discordapp.com/attachments/942273549148770396/942275925532377098/pat_3.gif", "https://cdn.discordapp.com/attachments/942273549148770396/942275925897256960/pat_4.gif", "https://cdn.discordapp.com/attachments/942273549148770396/942275926287323146/pat_5.gif", "https://cdn.discordapp.com/attachments/942273549148770396/942275926547386388/pat_6.gif", "https://cdn.discordapp.com/attachments/942273549148770396/942275926937452606/pat_7.gif"];
 	}
@@ -32,10 +32,7 @@ class Analyzer_user_commands {
 					break;
 			}
 		};
-
-		this.Bot.removeListener("interactionCreate", callback_interactionCreate);
-
-		this.Bot.on("interactionCreate", callback_interactionCreate);
+		this.reg_callback("interactionCreate", callback_interactionCreate);
 	}
 	send_banner(interacion) {
 		interacion.guild.members.fetch(interacion.targetId).then(user => {
@@ -106,15 +103,14 @@ class Analyzer_user_commands {
 		interacion.reply({ "content": `<@!${interacion.targetId}>`, "embeds": [embed] });
 	}
 	send_profile(interacion) {
-		interacion.deferReply().then(() => {
-			interacion.guild.members.fetch(interacion.targetId).then(member => {
+		interacion.guild.members.fetch(interacion.targetId).then(member => {
+			interacion.deferReply().then(() => {
 				const command = this.Bot.commands.get("profile");
 				command.get_embed(this.Bot, member).then(embed => {
 					interacion.editReply({ "embeds": [embed] });
 				});
 			});
 		}).catch(err => {
-			console.log(err);
 			interacion.reply({ "content": "Юзер не найден", "ephemeral": true });
 			return;
 		});
@@ -124,6 +120,9 @@ class Analyzer_user_commands {
 	}
 }
 module.exports = (Bot) => {
+	if (Bot.Analyzer_user_commands) {
+		Bot.Analyzer_user_commands.destroy();
+	}
 	Bot.Analyzer_user_commands = new Analyzer_user_commands(Bot);
 	Bot.Analyzer_user_commands.init();
 };

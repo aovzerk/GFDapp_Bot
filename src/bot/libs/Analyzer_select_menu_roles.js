@@ -1,7 +1,8 @@
 const { MessageEmbed } = require("discord.js");
-class Analyzer_select_menu_roles {
+const Base_lib = require("./Base_lib/Base_lib");
+class Analyzer_select_menu_roles extends Base_lib {
 	constructor(Bot) {
-		this.Bot = Bot;
+		super(Bot);
 	}
 	init() {
 		this.set_handler();
@@ -32,9 +33,7 @@ class Analyzer_select_menu_roles {
 
 		};
 
-		this.Bot.removeListener("interactionCreate", callback_interactionCreate);
-
-		this.Bot.on("interactionCreate", callback_interactionCreate);
+		this.reg_callback("interactionCreate", callback_interactionCreate);
 	}
 	get_all_values(interaction) {
 		const roles = [];
@@ -45,6 +44,9 @@ class Analyzer_select_menu_roles {
 	}
 }
 module.exports = (Bot) => {
+	if (Bot.Analyzer_select_menu_roles) {
+		Bot.Analyzer_select_menu_roles.destroy();
+	}
 	Bot.Analyzer_select_menu_roles = new Analyzer_select_menu_roles(Bot);
 	Bot.Analyzer_select_menu_roles.init();
 };

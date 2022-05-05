@@ -1,8 +1,9 @@
-const discordModals = require("discord-modals");
+const discordModals = require("../../discord-modals");
 const { MessageEmbed } = require("discord.js");
-class Analyzer_modal_idea {
+const Base_lib = require("./Base_lib/Base_lib");
+class Analyzer_modal_idea extends Base_lib {
 	constructor(Bot) {
-		this.Bot = Bot;
+		super(Bot);
 		this.channel_id = "968589749176635392";
 		this.guild = "865553581038108702";
 	}
@@ -47,12 +48,13 @@ class Analyzer_modal_idea {
 			}
 		};
 
-		this.Bot.removeListener("modalSubmit", call_back_modalSubmit);
-
-		this.Bot.on("modalSubmit", call_back_modalSubmit);
+		this.reg_callback("modalSubmit", call_back_modalSubmit);
 	}
 }
 module.exports = (Bot) => {
+	if (Bot.Analyzer_modal_idea) {
+		Bot.Analyzer_modal_idea.destroy();
+	}
 	discordModals(Bot);
 	Bot.Analyzer_modal_idea = new Analyzer_modal_idea(Bot);
 	Bot.Analyzer_modal_idea.init();

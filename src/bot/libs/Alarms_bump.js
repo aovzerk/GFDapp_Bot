@@ -1,8 +1,9 @@
 /* eslint-disable max-nested-callbacks */
 const { MessageEmbed } = require("discord.js");
-class Alarms_bump {
+const Base_lib = require("./Base_lib/Base_lib");
+class Alarms_bump extends Base_lib {
 	constructor(Bot) {
-		this.Bot = Bot;
+		super(Bot);
 		this.white_list = new Map();
 		this.white_list = new Map();
 		this.white_list.set("575776004233232386", ["Вы успешно лайкнули сервер.", "/like"]); // DSMonitoring
@@ -24,14 +25,9 @@ class Alarms_bump {
 		const call_back_messageUpdate = (oldMsg, newMsg) => {
 			this.analys(newMsg);
 		};
-
-		this.Bot.removeListener("ready", call_back_ready);
-		this.Bot.removeListener("messageCreate", call_back_messageCreate);
-		this.Bot.removeListener("messageUpdate", call_back_messageUpdate);
-
-		this.Bot.once("ready", call_back_ready);
-		this.Bot.on("messageCreate", call_back_messageCreate);
-		this.Bot.on("messageUpdate", call_back_messageUpdate);
+		this.reg_callback("ready", call_back_ready, true);
+		this.reg_callback("messageCreate", call_back_messageCreate);
+		this.reg_callback("messageUpdate", call_back_messageUpdate);
 	}
 	first_start() {
 		this.Bot.Db_manager.get_all_servers().then(servers_db => {
@@ -142,6 +138,9 @@ class Alarms_bump {
 	}
 }
 module.exports = (Bot) => {
+	if (Bot.Alarms_bump) {
+		Bot.Alarms_bump.destroy();
+	}
 	Bot.Alarms_bump = new Alarms_bump(Bot);
 	Bot.Alarms_bump.init();
 };

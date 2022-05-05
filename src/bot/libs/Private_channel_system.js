@@ -1,7 +1,8 @@
 /* eslint-disable max-nested-callbacks */
-class Private_channel_system {
+const Base_lib = require("./Base_lib/Base_lib");
+class Private_channel_system extends Base_lib {
 	constructor(Bot) {
-		this.Bot = Bot;
+		super(Bot);
 		this.guilds = new Map();
 	}
 	init() {
@@ -130,14 +131,14 @@ class Private_channel_system {
 			});
 		};
 
-		this.Bot.removeListener("ready", call_back_ready);
-		this.Bot.removeListener("voiceStateUpdate", call_back_voiceStateUpdate);
-
-		this.Bot.once("ready", call_back_ready);
-		this.Bot.on("voiceStateUpdate", call_back_voiceStateUpdate);
+		this.reg_callback("ready", call_back_ready, true);
+		this.reg_callback("voiceStateUpdate", call_back_voiceStateUpdate);
 	}
 }
 module.exports = (Bot) => {
+	if (Bot.Private_channel_system) {
+		Bot.Private_channel_system.destroy();
+	}
 	Bot.Private_channel_system = new Private_channel_system(Bot);
 	Bot.Private_channel_system.init();
 };

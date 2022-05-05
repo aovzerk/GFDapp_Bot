@@ -1,6 +1,7 @@
-class Bot_status {
+const Base_lib = require("./Base_lib/Base_lib");
+class Bot_status extends Base_lib {
 	constructor(Bot) {
-		this.Bot = Bot;
+		super(Bot);
 		this.interval = null;
 	}
 	init() {
@@ -22,13 +23,10 @@ class Bot_status {
 			this.set_activity();
 		};
 
-		this.Bot.removeListener("ready", call_back_ready);
-		this.Bot.removeListener("guildCreate", callback_guildCreate);
-		this.Bot.removeListener("guildDelete", callback_guildDelete);
 
-		this.Bot.once("ready", call_back_ready);
-		this.Bot.on("guildCreate", callback_guildCreate);
-		this.Bot.on("guildDelete", callback_guildDelete);
+		this.reg_callback("ready", call_back_ready, true);
+		this.reg_callback("guildCreate", callback_guildCreate);
+		this.reg_callback("guildDelete", callback_guildDelete);
 	}
 	set_activity() {
 		const servers = this.Bot.guilds.cache.size;
@@ -42,6 +40,9 @@ class Bot_status {
 	}
 }
 module.exports = (Bot) => {
+	if (Bot.Bot_status) {
+		Bot.Bot_status.destroy();
+	}
 	Bot.Bot_status = new Bot_status(Bot);
 	Bot.Bot_status.init();
 };

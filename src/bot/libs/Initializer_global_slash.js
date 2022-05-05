@@ -1,8 +1,8 @@
 const fetch = require("node-fetch");
-
-class Initializer_global_slash {
+const Base_lib = require("./Base_lib/Base_lib");
+class Initializer_global_slash extends Base_lib {
 	constructor(Bot) {
-		this.Bot = Bot;
+		super(Bot);
 		this._start = 1;
 		this.commands = [
 			{
@@ -269,10 +269,7 @@ class Initializer_global_slash {
 		const call_back_ready = (Client) => {
 			this.create_slash(Client);
 		};
-
-		this.Bot.removeListener("ready", call_back_ready);
-
-		this.Bot.once("ready", call_back_ready);
+		this.reg_callback("ready", call_back_ready, true);
 	}
 	create_slash(Client) {
 		// this.delete_commands(Client, ["Перевести на русский", "Перевести на английский"]);
@@ -321,6 +318,9 @@ class Initializer_global_slash {
 	}
 }
 module.exports = (Bot) => {
+	if (Bot.Initializer_global_slash) {
+		Bot.Initializer_global_slash.destroy();
+	}
 	Bot.Initializer_global_slash = new Initializer_global_slash(Bot);
 	Bot.Initializer_global_slash.init();
 };

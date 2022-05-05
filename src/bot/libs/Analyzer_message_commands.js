@@ -1,7 +1,8 @@
 const translate = require("translate-google");
-class Analyzer_message_commands {
+const Base_lib = require("./Base_lib/Base_lib");
+class Analyzer_message_commands extends Base_lib {
 	constructor(Bot) {
-		this.Bot = Bot;
+		super(Bot);
 	}
 	init() {
 		this.set_handlet();
@@ -21,9 +22,7 @@ class Analyzer_message_commands {
 			}
 		};
 
-		this.Bot.removeListener("interactionCreate", callback_interactionCreate);
-
-		this.Bot.on("interactionCreate", callback_interactionCreate);
+		this.reg_callback("interactionCreate", callback_interactionCreate);
 	}
 	translate(interaction, lang) {
 		const msg = interaction.targetMessage;
@@ -35,6 +34,9 @@ class Analyzer_message_commands {
 	}
 }
 module.exports = (Bot) => {
+	if (Bot.Analyzer_message_commands) {
+		Bot.Analyzer_message_commands.destroy();
+	}
 	Bot.Analyzer_message_commands = new Analyzer_message_commands(Bot);
 	Bot.Analyzer_message_commands.init();
 };

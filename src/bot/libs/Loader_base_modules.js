@@ -1,38 +1,26 @@
 const importFresh = require("import-fresh");
 const fs = require("fs");
 const { Collection } = require("discord.js");
-class Loader_base_modules {
+const Base_lib = require("./Base_lib/Base_lib");
+class Loader_base_modules extends Base_lib {
 	constructor(Bot) {
-		this.Bot = Bot;
+		super(Bot);
 		this.Bot.commands = new Collection();
 		this.Bot.commands_slash = new Collection();
-		this.call_backs = new Map();
 	}
 	init() {
 		this.init_commands();
 		this.init_commands_slash();
 		this.init_handlers();
 	}
-	clear_callbacks() {
-		this.call_backs.forEach((callback_f, event_name) => {
-			this.Bot.removeListener(event_name, callback_f);
-		});
-	}
 	init_handlers() {
 		const handlers_files = fs.readdirSync("./src/bot/handlers").filter(file => file.endsWith(".js"));
 		console.log("Загрузка хендлеров");
-		this.call_backs = new Map();
 		for (const file of handlers_files) {
 			const handler = importFresh(`../handlers/${file}`);
 			const callback = (...args) => handler.run(...args);
-			this.call_backs.set(handler.name, callback);
-			if (handler.once) {
-				this.Bot.once(handler.name, callback);
-				console.log(`${file} Загружен`);
-			} else {
-				this.Bot.on(handler.name, callback);
-				console.log(`${file} Загружен`);
-			}
+			this.reg_callback(handler.name, callback, handler.once);
+			console.log(`${file} Загружен`);
 		}
 	}
 	init_commands() {
@@ -83,7 +71,7 @@ class Loader_base_modules {
 
 module.exports = (Bot) => {
 	if (Bot.Loader_base_modules) {
-		Bot.Loader_base_modules.clear_callbacks();
+		Bot.Loader_base_modules.destroy();
 	}
 	Bot.Loader_base_modules = new Loader_base_modules(Bot);
 	Bot.Loader_base_modules.init();

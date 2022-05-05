@@ -1,6 +1,7 @@
-class Anti_spam {
+const Base_lib = require("./Base_lib/Base_lib");
+class Anti_spam extends Base_lib {
 	constructor(Bot) {
-		this.Bot = Bot;
+		super(Bot);
 		this.guilds = new Map();
 		this.msg_to_mute = 5;
 		this.time_out = 3000;
@@ -50,12 +51,13 @@ class Anti_spam {
 
 		};
 
-		this.Bot.removeListener("messageCreate", call_back_messageCreate);
-
-		this.Bot.on("messageCreate", call_back_messageCreate);
+		this.reg_callback("messageCreate", call_back_messageCreate);
 	}
 }
 module.exports = (Bot) => {
+	if (Bot.Anti_spam) {
+		Bot.Anti_spam.destroy();
+	}
 	Bot.Anti_spam = new Anti_spam(Bot);
 	Bot.Anti_spam.init();
 };

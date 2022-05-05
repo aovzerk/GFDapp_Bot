@@ -1,7 +1,5 @@
-const SDC = require("../../sdc-api-master");
-class SDC_auto_post extends SDC {
-	constructor(token, Bot) {
-		super(token);
+class Base_lib {
+	constructor(Bot) {
 		this.Bot = Bot;
 		this.callbacks = new Map();
 	}
@@ -25,21 +23,5 @@ class SDC_auto_post extends SDC {
 		this.Bot.removeListener(event_name, callback);
 		this.callbacks.delete(event_name);
 	}
-	init() {
-		this.set_handler();
-	}
-	set_handler() {
-		const call_back_ready = (Client) => {
-			this.setAutoPost(Client);
-		};
-
-		this.reg_callback("ready", call_back_ready, true);
-	}
 }
-module.exports = (Bot) => {
-	if (Bot.SDC_auto_post) {
-		Bot.SDC_auto_post.destroy();
-	}
-	Bot.SDC_auto_post = new SDC_auto_post(global.main_config.SDC_API, Bot);
-	Bot.SDC_auto_post.init();
-};
+module.exports = Base_lib;
