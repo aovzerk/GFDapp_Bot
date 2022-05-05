@@ -8,9 +8,13 @@ class SDC_auto_post extends SDC {
 		this.set_handler();
 	}
 	set_handler() {
-		this.Bot.once("ready", (Client) => {
+		const call_back_ready = (Client) => {
 			this.setAutoPost(Client);
-		});
+		};
+
+		this.Bot.removeListener("ready", call_back_ready);
+
+		this.Bot.once("ready", call_back_ready);
 	}
 }
 module.exports = (Bot) => {

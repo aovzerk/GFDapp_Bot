@@ -10,7 +10,7 @@ class Analyzer_modal_idea {
 		this.set_handler();
 	}
 	set_handler() {
-		this.Bot.on("modalSubmit", (modal) => {
+		const call_back_modalSubmit = (modal) => {
 			if (modal.customId == "modal_idea") {
 				modal.deferReply({ "ephemeral": true }).then(() => {
 					modal.followUp({ "content": "``Я принял вашу идею. Передаю AOV#6953``", "ephemeral": true });
@@ -45,8 +45,11 @@ class Analyzer_modal_idea {
 					});
 				});
 			}
+		};
 
-		});
+		this.Bot.removeListener("modalSubmit", call_back_modalSubmit);
+
+		this.Bot.on("modalSubmit", call_back_modalSubmit);
 	}
 }
 module.exports = (Bot) => {

@@ -262,9 +262,13 @@ class Initializer_global_slash {
 		this.set_handler();
 	}
 	set_handler() {
-		this.Bot.once("ready", (Client) => {
+		const call_back_ready = (Client) => {
 			this.create_slash(Client);
-		});
+		};
+
+		this.Bot.removeListener("ready", call_back_ready);
+
+		this.Bot.once("ready", call_back_ready);
 	}
 	create_slash(Client) {
 		// this.delete_commands(Client, ["Перевести на русский", "Перевести на английский"]);

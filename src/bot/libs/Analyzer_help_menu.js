@@ -53,7 +53,7 @@ class Analyzer_help_menu {
 		this.set_handler();
 	}
 	set_handler() {
-		this.Bot.on("interactionCreate", (interaction) => {
+		const callback_interactionCreate = (interaction) => {
 			if (!interaction.isSelectMenu()) return;
 			if (interaction.customId != "menu_help") return;
 			const guild = this.guilds.get(interaction.guild.id);
@@ -73,7 +73,11 @@ class Analyzer_help_menu {
 			} else {
 				interaction.reply({ "content": "``Вы не владелец этого сообщения``", "ephemeral": true });
 			}
-		});
+		};
+
+		this.Bot.removeListener("interactionCreate", callback_interactionCreate);
+
+		this.Bot.on("interactionCreate", callback_interactionCreate);
 	}
 	get_help_list(type, prefix) {
 		let description = "";

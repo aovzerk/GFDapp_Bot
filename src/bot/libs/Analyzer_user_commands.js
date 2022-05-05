@@ -10,7 +10,7 @@ class Analyzer_user_commands {
 		this.set_handler();
 	}
 	set_handler() {
-		this.Bot.on("interactionCreate", (interacion) => {
+		const callback_interactionCreate = (interacion) => {
 			if (!interacion.isUserContextMenu()) return;
 			switch (interacion.commandName) {
 				case "Обнять":
@@ -28,7 +28,11 @@ class Analyzer_user_commands {
 				default:
 					break;
 			}
-		});
+		};
+
+		this.Bot.removeListener("interactionCreate", callback_interactionCreate);
+
+		this.Bot.on("interactionCreate", callback_interactionCreate);
 	}
 	send_banner(interacion) {
 		interacion.guild.members.fetch(interacion.targetId).then(user => {

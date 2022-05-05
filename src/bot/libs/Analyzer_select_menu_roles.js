@@ -7,7 +7,7 @@ class Analyzer_select_menu_roles {
 		this.set_handler();
 	}
 	set_handler() {
-		this.Bot.on("interactionCreate", (interaction) => {
+		const callback_interactionCreate = (interaction) => {
 			if (!interaction.isSelectMenu() || interaction.customId != "menu_role") return;
 			const embed = new MessageEmbed();
 			interaction.deferReply({ "ephemeral": true });
@@ -30,7 +30,11 @@ class Analyzer_select_menu_roles {
 				});
 			});
 
-		});
+		};
+
+		this.Bot.removeListener("interactionCreate", callback_interactionCreate);
+
+		this.Bot.on("interactionCreate", callback_interactionCreate);
 	}
 	get_all_values(interaction) {
 		const roles = [];

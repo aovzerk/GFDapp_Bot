@@ -69,7 +69,7 @@ class Private_channel_system {
 
 	}
 	set_handler() {
-		this.Bot.once("ready", (client) => {
+		const call_back_ready = (client) => {
 			client.Db_manager.get_all_servers().then(servers => {
 				servers.forEach(server_db => {
 					const channel_caregory_privat_id = server_db.get("channel_caregory_privat");
@@ -85,8 +85,8 @@ class Private_channel_system {
 					}
 				});
 			});
-		});
-		this.Bot.on("voiceStateUpdate", (oldState, newState) => {
+		};
+		const call_back_voiceStateUpdate = (oldState, newState) => {
 			oldState.guild.client.Db_manager.get_server(oldState.guild).then((server_db) => {
 				const channel_category_id = server_db.get("channel_caregory_privat");
 				const channel_privat_id = server_db.get("channel_privat");
@@ -128,7 +128,13 @@ class Private_channel_system {
 					});
 				}
 			});
-		});
+		};
+
+		this.Bot.removeListener("ready", call_back_ready);
+		this.Bot.removeListener("voiceStateUpdate", call_back_voiceStateUpdate);
+
+		this.Bot.once("ready", call_back_ready);
+		this.Bot.on("voiceStateUpdate", call_back_voiceStateUpdate);
 	}
 }
 module.exports = (Bot) => {

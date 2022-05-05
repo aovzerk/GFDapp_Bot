@@ -40,7 +40,7 @@ class Anti_spam {
 
 	}
 	set_handler() {
-		this.Bot.on("messageCreate", msg => {
+		const call_back_messageCreate = (msg) => {
 			msg.client.Db_manager.get_server(msg.guild).then((server_db) => {
 				const anti_spam_opt = Number(server_db.get("anti_spam"));
 				if (anti_spam_opt == 1) {
@@ -48,7 +48,11 @@ class Anti_spam {
 				}
 			});
 
-		});
+		};
+
+		this.Bot.removeListener("messageCreate", call_back_messageCreate);
+
+		this.Bot.on("messageCreate", call_back_messageCreate);
 	}
 }
 module.exports = (Bot) => {

@@ -190,5 +190,13 @@
         "priority": 5,
         "load": true,
         "type": "info"
+    },
+    "reload":{
+        "name": "reload",
+        "description": " <comm> <arg2> | перезагрузить модуль",
+        "visibility": false,
+        "priority": 7,
+        "load": true,
+        "type": "moder"
     }
 }

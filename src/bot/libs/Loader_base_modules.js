@@ -6,6 +6,7 @@ class Loader_base_modules {
 		this.Bot = Bot;
 		this.Bot.commands = new Collection();
 		this.Bot.commands_slash = new Collection();
+		this.call_backs = new Map();
 	}
 	init() {
 		this.init_commands();
@@ -15,13 +16,19 @@ class Loader_base_modules {
 	init_handlers() {
 		const handlers_files = fs.readdirSync("./src/bot/handlers").filter(file => file.endsWith(".js"));
 		console.log("Загрузка хендлеров");
+		this.call_backs.forEach((callback_f, event_name) => {
+			this.Bot.removeListener(event_name, callback_f);
+		});
+		this.call_backs = new Map();
 		for (const file of handlers_files) {
 			const handler = importFresh(`../handlers/${file}`);
+			const callback = (...args) => handler.run(...args);
+			this.call_backs.set(handler.name, callback);
 			if (handler.once) {
-				this.Bot.once(handler.name, (...args) => handler.run(...args));
+				this.Bot.once(handler.name, callback);
 				console.log(`${file} Загружен`);
 			} else {
-				this.Bot.on(handler.name, (...args) => handler.run(...args));
+				this.Bot.on(handler.name, callback);
 				console.log(`${file} Загружен`);
 			}
 		}

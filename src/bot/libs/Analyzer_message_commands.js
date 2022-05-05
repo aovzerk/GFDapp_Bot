@@ -7,7 +7,7 @@ class Analyzer_message_commands {
 		this.set_handlet();
 	}
 	set_handlet() {
-		this.Bot.on("interactionCreate", interaction => {
+		const callback_interactionCreate = (interaction) => {
 			if (!interaction.isMessageContextMenu()) return;
 			switch (interaction.commandName) {
 				case "Перевести на RUS":
@@ -19,7 +19,11 @@ class Analyzer_message_commands {
 				default:
 					break;
 			}
-		});
+		};
+
+		this.Bot.removeListener("interactionCreate", callback_interactionCreate);
+
+		this.Bot.on("interactionCreate", callback_interactionCreate);
 	}
 	translate(interaction, lang) {
 		const msg = interaction.targetMessage;

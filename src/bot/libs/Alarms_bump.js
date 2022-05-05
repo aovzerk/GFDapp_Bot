@@ -15,15 +15,23 @@ class Alarms_bump {
 		this.set_handler();
 	}
 	set_handler() {
-		this.Bot.once("ready", () => {
+		const call_back_ready = () => {
 			this.first_start();
-		});
-		this.Bot.on("messageCreate", msg => {
+		};
+		const call_back_messageCreate = (msg) => {
 			this.analys(msg);
-		});
-		this.Bot.on("messageUpdate", (oldMsg, newMsg) => {
+		};
+		const call_back_messageUpdate = (oldMsg, newMsg) => {
 			this.analys(newMsg);
-		});
+		};
+
+		this.Bot.removeListener("ready", call_back_ready);
+		this.Bot.removeListener("messageCreate", call_back_messageCreate);
+		this.Bot.removeListener("messageUpdate", call_back_messageUpdate);
+
+		this.Bot.once("ready", call_back_ready);
+		this.Bot.on("messageCreate", call_back_messageCreate);
+		this.Bot.on("messageUpdate", call_back_messageUpdate);
 	}
 	first_start() {
 		this.Bot.Db_manager.get_all_servers().then(servers_db => {

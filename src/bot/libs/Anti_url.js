@@ -18,12 +18,18 @@ class Anti_url {
 		this.set_handler();
 	}
 	set_handler() {
-		this.Bot.on("messageCreate", (msg) => {
+		const call_back_messageCreate = (msg) => {
 			this.analys(msg);
-		});
-		this.Bot.on("messageUpdate", (oldMsg, newMsg) => {
+		};
+		const call_back_messageUpdate = (oldMsg, newMsg) => {
 			this.analys(newMsg);
-		});
+		};
+
+		this.Bot.removeListener("messageCreate", call_back_messageCreate);
+		this.Bot.removeListener("messageUpdate", call_back_messageUpdate);
+
+		this.Bot.on("messageCreate", call_back_messageCreate);
+		this.Bot.on("messageUpdate", call_back_messageUpdate);
 	}
 	analys(msg) {
 		if (msg.client.Start && msg.author.id != msg.client.user.id) {

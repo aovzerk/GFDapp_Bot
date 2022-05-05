@@ -7,20 +7,28 @@ class Bot_status {
 		this.set_handler();
 	}
 	set_handler() {
-		this.Bot.once("ready", () => {
+		const call_back_ready = () => {
 			this.set_activity();
 			this.set_interval();
-		});
-		this.Bot.on("guildCreate", (guild) => {
+		};
+		const callback_guildCreate = (guild) => {
 			clearInterval(this.interval);
 			this.set_interval();
 			this.set_activity();
-		});
-		this.Bot.on("guildDelete", (guild) => {
+		};
+		const callback_guildDelete = (guild) => {
 			clearInterval(this.interval);
 			this.set_interval();
 			this.set_activity();
-		});
+		};
+
+		this.Bot.removeListener("ready", call_back_ready);
+		this.Bot.removeListener("guildCreate", callback_guildCreate);
+		this.Bot.removeListener("guildDelete", callback_guildDelete);
+
+		this.Bot.once("ready", call_back_ready);
+		this.Bot.on("guildCreate", callback_guildCreate);
+		this.Bot.on("guildDelete", callback_guildDelete);
 	}
 	set_activity() {
 		const servers = this.Bot.guilds.cache.size;
