@@ -6,6 +6,29 @@ class Initializer_global_slash extends Base_lib {
 		this._start = 0;
 		this.commands = [
 			{
+				"name": "guild_logs",
+				"description": "управление логами на сервере",
+				"options": [
+					{
+						"name": "status",
+						"description": "Включение или выключение логов гильдии",
+						"type": 4,
+						"required": true,
+						"choices": [
+							{
+								"name": "on",
+								"value": 1
+							},
+							{
+								"name": "off",
+								"value": 0
+							}
+						]
+					}
+				],
+				"default_member_permissions": 8
+			},
+			{
 				"name": "Профиль",
 				"type": 2
 			},

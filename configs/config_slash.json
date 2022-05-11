@@ -94,5 +94,13 @@
         "priority": 5.1,
         "load": true,
         "type": "set_g"
+    },
+    "guild_logs":{
+        "name": "guild_logs",
+        "description": " | слеш команда для логами сервера",
+        "visibility": true,
+        "priority": 5.2,
+        "load": true,
+        "type": "set_g"
     }
 }

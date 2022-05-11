@@ -123,6 +123,11 @@ Server_m.init({
 		"type": DataTypes.STRING,
 		"allowNull": true,
 		"defaultValue": null
+	},
+	"log_guild": {
+		"type": DataTypes.BOOLEAN,
+		"allowNull": false,
+		"defaultValue": false
 	}
 }, {
 	sequelize,
