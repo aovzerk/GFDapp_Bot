@@ -17,14 +17,9 @@ class Bot extends Client {
 		const libs_files = fs.readdirSync("./src/bot/libs/").filter(file => file.endsWith(".js"));
 		console.log("Загрузка Библиотек");
 		for (const file of libs_files) {
-			if (mode == 1 && (file.toString() == "Modules_reloader.js" || file.toString() == "Music_player.js")) {
-				//
-			} else {
-				const lib = importFresh(`./libs/${file}`);
-				lib(this);
-				console.log(`LIB ${file} Загружен`);
-			}
-
+			const lib = importFresh(`./libs/${file}`);
+			lib(this);
+			console.log(`LIB ${file} Загружен`);
 		}
 	}
 }

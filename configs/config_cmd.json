@@ -179,6 +179,7 @@
         "name": "clear",
         "description": " ``N`` | удалить **N** сообщений в канале",
         "visibility": true,
+        "ignore_channels": true,
         "priority": 7,
         "load": true,
         "type": "moder"
@@ -195,6 +196,7 @@
         "name": "reload",
         "description": " <comm> <arg2> | перезагрузить модуль",
         "visibility": false,
+        "ignore_channels": true,
         "priority": 7,
         "load": true,
         "type": "moder"
@@ -203,6 +205,14 @@
         "name": "guild_status",
         "description": "  | инфомрмация о сервере",
         "visibility": true,
+        "priority": 5.1,
+        "load": true,
+        "type": "info"
+    },
+    "clear_cmd":{
+        "name": "clear_cmd",
+        "description": "  | Очистка памяти консоли",
+        "visibility": false,
         "priority": 5.1,
         "load": true,
         "type": "info"

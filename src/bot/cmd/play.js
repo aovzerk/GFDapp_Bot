@@ -33,6 +33,12 @@ class Command extends Base_Command {
 				});
 				return;
 			}
+			if (!args.msg.member.voice.channel.joinable) {
+				args.msg.channel.send({ "content": "``У бота нета прав подключаться к этому голосовому каналу``" }).then(new_msg2 => {
+					setTimeout(() => new_msg2.delete(), 5000);
+				});
+				return;
+			}
 			const queue = args.Bot.player.createQueue(args.msg.guild.id);
 			queue.join(args.msg.member.voice.channel).then(() => {
 				args.msg.channel.send({ "content": `Ищу трек по запросу \`\`${song_request}\`\`` }).then(new_msg => {

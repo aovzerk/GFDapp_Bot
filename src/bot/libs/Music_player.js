@@ -111,27 +111,23 @@ class Music_analys extends Player {
 			this.intervals.delete(queue.guild.id);
 			this.end_message(queue);
 		});
-		const callback_interactionCreate = (interaction) => {
+		this.callback_interactionCreate = (interaction) => {
 			if (!interaction.isButton()) return;
 			if (!this.ids_int.includes(interaction.customId)) return;
 			const queue = this.client.player.getQueue(interaction.guild.id);
 			if (queue == null || queue == undefined) {
-				interaction.reply({ "content": "Этот плеер устарел используйте ``g!np``", "ephemeral": true });
-				return;
+				return interaction.reply({ "content": "Этот плеер устарел используйте ``g!np``", "ephemeral": true });
 			}
 			const msg = this.guilds.get(queue.guild.id);
 			if (msg == undefined || msg == null) {
-				interaction.reply({ "content": "Этот плеер устарел используйте ``g!np``", "ephemeral": true });
-				return;
+				return interaction.reply({ "content": "Этот плеер устарел используйте ``g!np``", "ephemeral": true });
 			}
 			if (msg.id != interaction.message.id) {
-				interaction.reply({ "content": "Этот плеер устарел используйте ``g!np``", "ephemeral": true });
-				return;
+				return interaction.reply({ "content": "Этот плеер устарел используйте ``g!np``", "ephemeral": true });
 			}
 			const dj = this.djs.get(interaction.guild.id);
 			if (dj == null || dj == undefined) {
-				interaction.reply({ "content": "Этот плеер устарел используйте ``g!np``", "ephemeral": true });
-				return;
+				return interaction.reply({ "content": "Этот плеер устарел используйте ``g!np``", "ephemeral": true });
 			}
 			switch (interaction.customId) {
 				case "shuffle_queue":
@@ -190,7 +186,7 @@ class Music_analys extends Player {
 						}
 					} else {
 						interaction.reply({ "content": "``Вы не Dj``", "ephemeral": true });
-					}	interaction.reply({ "content": "``Вы не Dj``", "ephemeral": true });
+					}
 					break;
 				case "next_song":
 					if (dj == interaction.member.id) {
@@ -263,9 +259,7 @@ class Music_analys extends Player {
 			}
 		};
 
-		this.client.removeListener("interactionCreate", callback_interactionCreate);
-
-		this.client.on("interactionCreate", callback_interactionCreate);
+		this.client.on("interactionCreate", this.callback_interactionCreate);
 	}
 	get_queue(queue) {
 		const embed = new MessageEmbed()
@@ -297,6 +291,11 @@ class Music_analys extends Player {
 		if (msg == undefined || msg == null) return;
 		if (!queue.destroyed && queue.songs.length != 0) {
 			queue.setPaused(false);
+
+		}
+		if (!queue.destroyed) {
+			// queue.leave();
+			// queue.stop();
 		}
 		msg.edit({ "content": "``Очередь закончилась либо остановили воспроизведение, прекращаю играть музыку``", "embeds": [], "components": [] }).then(() => {
 			this.guilds.delete(queue.guild.id);
@@ -361,15 +360,23 @@ class Music_analys extends Player {
 }
 module.exports = (Bot) => {
 	if (Bot.player) {
+		Bot.removeListener("interactionCreate", Bot.player.callback_interactionCreate);
+
 		Bot.player.destroy();
 		Bot.player.queues.forEach(queue => {
-			queue.stop();
-			Bot.player.emit("QUEUE_STOPED", queue);
+			if (!queue.destroyed) {
+				// queue.leave();
+				queue.stop();
+				Bot.player.emit("QUEUE_STOPED", queue);
+			}
+			// queue.stop();
+			// queue.leave();
+
 		});
 
 	}
 	const player = new Music_analys(Bot, {
-		"leaveOnEnd": false,
+		"leaveOnEnd": true,
 		"leaveOnStop": true,
 		"leaveOnEmpty": true,
 		"volume": 100,

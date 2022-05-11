@@ -15,18 +15,17 @@ class Update_create_channel_stats {
 			const channel_users = guild.channels.cache.get(id_users);
 			const channel_bots = guild.channels.cache.get(id_bots);
 			const channel_category = guild.channels.cache.get(id_category);
-			channel_all.delete().then(() => {
-				channel_users.delete().then(() => {
-					channel_bots.delete().then(() => {
-						channel_category.delete().then(() => {
-							server_db.set("channel_stats_category", null);
-							server_db.set("channel_stats_all", null);
-							server_db.set("channel_stats_users", null);
-							server_db.set("channel_stats_bots", null);
-							server_db.save().then(() => resolve(true));
-						});
-					});
-				});
+			Promise.all([
+				channel_all.delete(),
+				channel_users.delete(),
+				channel_bots.delete(),
+				channel_category.delete()
+			]).then(() => {
+				server_db.set("channel_stats_category", null);
+				server_db.set("channel_stats_all", null);
+				server_db.set("channel_stats_users", null);
+				server_db.set("channel_stats_bots", null);
+				server_db.save().then(() => resolve(true));
 			});
 		});
 	}
@@ -35,22 +34,21 @@ class Update_create_channel_stats {
 			this.get_bots(guild).then(bots => {
 				const members = guild.memberCount - bots;
 				const all = guild.memberCount;
-				this.create_channel("Статистика сервера", "GUILD_CATEGORY", guild).then(channel_category => {
-					channel_category.setPosition(0);
-					this.create_channel(`👥Всего: ${all}`, "GUILD_VOICE", guild).then(channel_all => {
-						channel_all.setParent(channel_category.id);
-						this.create_channel(`👤Люди: ${members}`, "GUILD_VOICE", guild).then(channel_members => {
-							channel_members.setParent(channel_category.id);
-							this.create_channel(`🤖Боты: ${bots}`, "GUILD_VOICE", guild).then(channel_bots => {
-								channel_bots.setParent(channel_category.id);
-								server_db.set("channel_stats_category", channel_category.id);
-								server_db.set("channel_stats_all", channel_all.id);
-								server_db.set("channel_stats_users", channel_members.id);
-								server_db.set("channel_stats_bots", channel_bots.id);
-								server_db.save().then(() => resolve(true));
-							});
-						});
-					});
+				Promise.all([
+					this.create_channel(`👥Всего: ${all}`, "GUILD_VOICE", guild),
+					this.create_channel(`👤Люди: ${members}`, "GUILD_VOICE", guild),
+					this.create_channel(`🤖Боты: ${bots}`, "GUILD_VOICE", guild),
+					this.create_channel("Статистика сервера", "GUILD_CATEGORY", guild)
+				]).then(channels => {
+					channels[3].setPosition(0).then(() => null);
+					for (let i = 0; i < 3; i++) {
+						channels[i].setParent(channels[3].id).then(() => null);
+					}
+					server_db.set("channel_stats_category", channels[3].id);
+					server_db.set("channel_stats_all", channels[0].id);
+					server_db.set("channel_stats_users", channels[1].id);
+					server_db.set("channel_stats_bots", channels[2].id);
+					server_db.save().then(() => resolve(true));
 				});
 			});
 		});
@@ -67,12 +65,12 @@ class Update_create_channel_stats {
 				const channel_all = guild.channels.cache.get(id_all);
 				const channel_users = guild.channels.cache.get(id_users);
 				const channel_bots = guild.channels.cache.get(id_bots);
-				channel_all.setName(`👥Всего: ${all}`).then(() => {
-					channel_users.setName(`👤Люди: ${members}`).then(() => {
-						channel_bots.setName(`🤖Боты: ${bots}`).then(() => {
-							resolve(true);
-						});
-					});
+				Promise.all([
+					channel_all.setName(`👥Всего: ${all}`),
+					channel_users.setName(`👤Люди: ${members}`),
+					channel_bots.setName(`🤖Боты: ${bots}`)
+				]).then(() => {
+					resolve(true);
 				});
 			});
 		});

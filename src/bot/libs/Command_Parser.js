@@ -4,18 +4,29 @@ class Parser_msg {
 		this.msg = msg;
 	}
 	parse(server_db) {
-		const channels_command = this.get_channels_command(server_db);
-		if (channels_command != null && channels_command.indexOf(this.msg.channel.id) == -1) return;
+
 		const prefix = server_db.get("prefix");
 		const command = this.get_command(prefix);
 		if (command == undefined || command == null) return;
 		const args_msg = this.get_msg_args();
-		command.run({
-			"Bot": this.Bot,
-			"msg": this.msg,
-			"args": args_msg,
-			"server_db": server_db
-		});
+		if (command.description.ignore_channels) {
+			command.run({
+				"Bot": this.Bot,
+				"msg": this.msg,
+				"args": args_msg,
+				"server_db": server_db
+			});
+		} else {
+			const channels_command = this.get_channels_command(server_db);
+			if (channels_command != null && channels_command.indexOf(this.msg.channel.id) == -1) return;
+			command.run({
+				"Bot": this.Bot,
+				"msg": this.msg,
+				"args": args_msg,
+				"server_db": server_db
+			});
+		}
+
 	}
 	get_channels_command(server_db) {
 		const _channels_str = server_db.get("channels_read_command");

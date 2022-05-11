@@ -4,6 +4,7 @@ class Private_channel_system extends Base_lib {
 	constructor(Bot) {
 		super(Bot);
 		this.guilds = new Map();
+		this.interval = null;
 	}
 	init() {
 		this.set_handler();
@@ -19,41 +20,36 @@ class Private_channel_system extends Base_lib {
 		server_db.set("channel_privat", null);
 		return new Promise((resolve, reject) => {
 			server_db.save().then(() => {
-				channel_category.delete().then(() => {
-					channel_private.delete().then(resolve(true));
-				});
+				Promise.all([
+					channel_category.delete(),
+					channel_private.delete()
+				]).then(() => resolve(true));
 			});
 		});
 	}
 	create_channls_for_work(guild, server_db) {
 		return new Promise((resolve, reject) => {
-			guild.channels.create("Приватки", {
-				"type": "GUILD_CATEGORY",
-				"permissionOverwrites": [
-					{
-						"id": guild.roles.everyone,
-						"allow": ["VIEW_CHANNEL", "SEND_MESSAGES", "READ_MESSAGE_HISTORY", "CONNECT", "SPEAK"]
-					}
-				]
-			}).then(channel_category => {
-				guild.channels.create("Создать приватку", {
-					"type": "GUILD_VOICE",
-					"permissionOverwrites": [
-						{
-							"id": guild.roles.everyone,
-							"allow": ["VIEW_CHANNEL", "SEND_MESSAGES", "READ_MESSAGE_HISTORY", "CONNECT", "SPEAK"]
-						}
-					]
-				}).then(channel_privat => {
-					channel_privat.setParent(channel_category.id).then(channel_privat_ => {
-						server_db.set("channel_caregory_privat", channel_category.id);
-						server_db.set("channel_privat", channel_privat_.id);
-						server_db.save().then(resolve(true));
-					});
-				});
+			Promise.all([
+				this.create_channel_work("GUILD_CATEGORY", "Приватки", guild),
+				this.create_channel_work("GUILD_VOICE", "Создать приватку", guild)
+			]).then((channels) => {
+				channels[1].setParent(channels[0].id).then(() => null);
+				server_db.set("channel_caregory_privat", channels[0].id);
+				server_db.set("channel_privat", channels[1].id);
+				server_db.save().then(resolve(true));
 			});
 		});
-
+	}
+	create_channel_work(type, name, guild) {
+		return guild.channels.create(name, {
+			"type": type,
+			"permissionOverwrites": [
+				{
+					"id": guild.roles.everyone,
+					"allow": ["VIEW_CHANNEL", "SEND_MESSAGES", "READ_MESSAGE_HISTORY", "CONNECT", "SPEAK"]
+				}
+			]
+		});
 	}
 	create_channel(member) {
 		return new Promise((resolve, reject) => {
@@ -82,6 +78,10 @@ class Private_channel_system extends Base_lib {
 									channel_.delete();
 								}
 							});
+						}).catch(err => {
+							server_db.set("channel_privat", null);
+							server_db.set("channel_caregory_privat", null);
+							server_db.save().then(() => null);
 						});
 					}
 				});
@@ -103,6 +103,7 @@ class Private_channel_system extends Base_lib {
 							_guild.set(oldState.member.id, new_channel);
 							this.guilds.set(oldState.guild.id, _guild);
 						});
+						return;
 					} else {
 						this.create_channel(oldState.member).then(new_channel => {
 							new_channel.setParent(channel_category_id);
@@ -111,13 +112,43 @@ class Private_channel_system extends Base_lib {
 							_guild.set(oldState.member.id, new_channel);
 							this.guilds.set(oldState.guild.id, _guild);
 						});
+						return;
+					}
+				}
+				if (newState.channel && newState.channel.id == channel_privat_id) {
+					const guild = this.guilds.get(oldState.guild.id);
+					if (guild == undefined || guild == null) {
+						this.guilds.set(oldState.guild.id, new Map());
+						this.create_channel(oldState.member).then(new_channel => {
+							new_channel.setParent(channel_category_id);
+							oldState.member.voice.setChannel(new_channel.id);
+							const _guild = this.guilds.get(oldState.guild.id);
+							_guild.set(oldState.member.id, new_channel);
+							this.guilds.set(oldState.guild.id, _guild);
+						});
+						return;
+					} else {
+						const member_chn = guild.get(oldState.member.id);
+						if (member_chn == undefined || member_chn == null) {
+							this.create_channel(oldState.member).then(new_channel => {
+								new_channel.setParent(channel_category_id);
+								oldState.member.voice.setChannel(new_channel.id);
+								const _guild = this.guilds.get(oldState.guild.id);
+								_guild.set(oldState.member.id, new_channel);
+								this.guilds.set(oldState.guild.id, _guild);
+							});
+							return;
+						} else {
+							oldState.member.voice.setChannel(member_chn.id);
+							return;
+						}
+
 					}
 				}
 				const guild = this.guilds.get(oldState.guild.id);
 				if (guild == undefined || guild == null) return;
 				const member_chn = guild.get(oldState.member.id);
 				if (member_chn == undefined || member_chn == null) return;
-
 				if (oldState.channel && oldState.channel.id == member_chn.id && newState.channel) {
 					oldState.member.voice.setChannel(member_chn.id);
 					return;
@@ -133,6 +164,7 @@ class Private_channel_system extends Base_lib {
 
 		this.reg_callback("ready", call_back_ready, true);
 		this.reg_callback("voiceStateUpdate", call_back_voiceStateUpdate);
+		this.interval = setInterval(() => call_back_ready(this.Bot), 10 ^ 60 * 1000);
 	}
 }
 module.exports = (Bot) => {

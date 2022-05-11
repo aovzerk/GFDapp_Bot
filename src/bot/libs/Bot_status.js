@@ -41,6 +41,7 @@ class Bot_status extends Base_lib {
 }
 module.exports = (Bot) => {
 	if (Bot.Bot_status) {
+		clearInterval(Bot.Bot_status.interval);
 		Bot.Bot_status.destroy();
 	}
 	Bot.Bot_status = new Bot_status(Bot);
