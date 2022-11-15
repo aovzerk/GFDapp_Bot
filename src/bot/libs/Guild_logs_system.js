@@ -120,7 +120,8 @@ class Guild_logs_system extends Base_lib {
 module.exports = (Bot) => {
 	if (Bot.Guild_logs_system) {
 		Bot.Guild_logs_system.destroy();
+		Bot.Guild_logs_system = null;
 	}
-	Bot.Guild_logs_system = new Guild_logs_system(Bot);
-	Bot.Guild_logs_system.init();
+	// Bot.Guild_logs_system = new Guild_logs_system(Bot);
+	// Bot.Guild_logs_system.init();
 };

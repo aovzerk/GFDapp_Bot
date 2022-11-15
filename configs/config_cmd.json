@@ -216,5 +216,21 @@
         "priority": 5.1,
         "load": true,
         "type": "info"
+    },
+    "marry":{
+        "name": "marry",
+        "description": " ``<@user>`` | Предложить руку и сердце",
+        "visibility": true,
+        "priority": 2,
+        "load": true,
+        "type": "etc"
+    },
+    "eval":{
+        "name": "eval",
+        "description": " ",
+        "visibility": false,
+        "priority": 2,
+        "load": true,
+        "type": "etc"
     }
 }

@@ -102,5 +102,13 @@
         "priority": 5.2,
         "load": true,
         "type": "set_g"
+    },
+    "ping":{
+        "name": "ping",
+        "description": " | слеш команда для просмотра пинга бота",
+        "visibility": true,
+        "priority": 5.2,
+        "load": true,
+        "type": "etc"
     }
 }

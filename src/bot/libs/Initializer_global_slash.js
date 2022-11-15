@@ -6,6 +6,10 @@ class Initializer_global_slash extends Base_lib {
 		this._start = 0;
 		this.commands = [
 			{
+				"name": "ping",
+				"description": "Пинг бота"
+			},
+			{
 				"name": "guild_logs",
 				"description": "управление логами на сервере",
 				"options": [

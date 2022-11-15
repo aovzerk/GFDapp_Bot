@@ -107,6 +107,14 @@ class Music_analys extends Player {
 			this.end_message(queue);
 		});
 		this.on("error", (error, queue) => {
+			if (error.includes("Video") || error.includes("410")) {
+				if (queue.songs.length == 1) {
+					this.emit("QUEUE_STOPED", queue);
+				} else {
+					queue.skip();
+				}
+				return;
+			}
 			clearInterval(this.intervals.get(queue.guild.id));
 			this.intervals.delete(queue.guild.id);
 			this.end_message(queue);

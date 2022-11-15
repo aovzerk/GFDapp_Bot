@@ -23,7 +23,7 @@ class Bot_status extends Base_lib {
 			this.set_activity();
 		};
 
-
+		this.set_activity();
 		this.reg_callback("ready", call_back_ready, true);
 		this.reg_callback("guildCreate", callback_guildCreate);
 		this.reg_callback("guildDelete", callback_guildDelete);
