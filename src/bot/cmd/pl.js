@@ -1,9 +1,9 @@
 /* eslint-disable max-nested-callbacks */
 const Base_Command = require("./Class_Command/Base_Command");
-const name_command = "p";
+const name_command = "pl";
 const description_command = global.config_cmd[name_command];
 const importFresh = require("import-fresh");
-const cmd_play = importFresh("./play.js");
+const cmd_playlist = importFresh("./playlist.js");
 /*
 ----args----
 
@@ -20,7 +20,7 @@ class Command extends Base_Command {
 		super(description);
 	}
 	run(args) {
-		cmd_play.run(args);
+		cmd_playlist.run(args);
 	}
 }
 module.exports = new Command(description_command);
