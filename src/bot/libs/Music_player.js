@@ -108,6 +108,7 @@ class Music_analys extends Player {
 			this.end_message(queue);
 		});
 		this.on("error", (error, queue) => {
+			console.log(error);
 			if ((error.includes("Video") || error.includes("410")) && !error.includes("aborted")) {
 				if (queue.songs.length == 1) {
 					this.emit("QUEUE_STOPED", queue);

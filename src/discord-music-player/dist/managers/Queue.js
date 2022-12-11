@@ -257,12 +257,11 @@ class Queue {
 			"requestOptions": this.player.options.ytdlRequestOptions ?? {},
 			"opusEncoded": false,
 			"seek": options.seek ? options.seek / 1000 : 0,
-			// fmt: 's16le',
+			"fmt": "s16le",
 			"encoderArgs": [],
 			"liveBuffer": 1000,
-			"quality": "highestaudio"
-			// highWaterMark: 1 << 25,
-			// filter: 'audioonly'
+			"quality": "highestaudio",
+			"highWaterMark": 1 << 25
 		})
 			.on("error", (error) => {
 				if (!/Status code|premature close/i.test(error.message))
