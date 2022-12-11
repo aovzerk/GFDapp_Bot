@@ -49,6 +49,15 @@
     },
     "play":{
         "name": "play",
+        "description": " ``<song> <time>`` | возпроизвести музыку, аргумента time необязательный и аналогичн аргументу из seek",
+        "visibility": true,
+        "priority": 0,
+        "load": true,
+        "type": "music"
+    },
+    
+    "p":{
+        "name": "p",
         "description": " ``<song>`` | возпроизвести музыку",
         "visibility": true,
         "priority": 0,
@@ -84,6 +93,14 @@
         "description": " ``<playlist>`` | воспроизвести плелист",
         "visibility": true,
         "priority": 1.1,
+        "load": true,
+        "type": "music"
+    },
+    "pl":{
+        "name": "pl",
+        "description": " ``<playlist>`` | воспроизвести плелист",
+        "visibility": true,
+        "priority": 1.01,
         "load": true,
         "type": "music"
     },
@@ -163,14 +180,6 @@
         "name": "profile",
         "description": " ``<@user>`` | профиль юзера, либо (p)",
         "visibility": true,
-        "priority": 4,
-        "load": true,
-        "type": "info"
-    },
-    "p":{
-        "name": "p",
-        "description": " ``<@user>`` | профиль юзера, либо (p)",
-        "visibility": false,
         "priority": 4,
         "load": true,
         "type": "info"
