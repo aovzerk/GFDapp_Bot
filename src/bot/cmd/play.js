@@ -33,8 +33,9 @@ class Command extends Base_Command {
 			for (let i = 1; i < args.args.length; i++) {
 				song_request = `${song_request } ${ args.args[i]}`;
 			}
+			song_request = song_request.slice(0, -1);
 		}
-
+		song_request = song_request.slice(1);
 		try {
 			if (guildQueue == undefined || guildQueue == null) {
 				if (!args.msg.member.voice.channel) {
