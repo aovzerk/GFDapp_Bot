@@ -14,7 +14,6 @@ const cmd_playlist = importFresh("./playlist.js");
 
 ----args----
 */
-
 class Command extends Base_Command {
 	constructor(description) {
 		super(description);

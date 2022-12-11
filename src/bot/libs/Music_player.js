@@ -1,5 +1,6 @@
 /* eslint-disable max-nested-callbacks */
-const { Player, RepeatMode } = require("discord-music-player");
+const { Player, RepeatMode } = require("../../discord-music-player");
+const { ButtonInteraction } = require("discord.js");
 const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 class Music_analys extends Player {
 	constructor(Bot, options) {
@@ -107,7 +108,7 @@ class Music_analys extends Player {
 			this.end_message(queue);
 		});
 		this.on("error", (error, queue) => {
-			if (error.includes("Video") || error.includes("410")) {
+			if ((error.includes("Video") || error.includes("410")) && !error.includes("aborted")) {
 				if (queue.songs.length == 1) {
 					this.emit("QUEUE_STOPED", queue);
 				} else {
@@ -119,6 +120,9 @@ class Music_analys extends Player {
 			this.intervals.delete(queue.guild.id);
 			this.end_message(queue);
 		});
+		/**
+		 * @param {ButtonInteraction} interaction
+		 */
 		this.callback_interactionCreate = (interaction) => {
 			if (!interaction.isButton()) return;
 			if (!this.ids_int.includes(interaction.customId)) return;
@@ -293,6 +297,7 @@ class Music_analys extends Player {
 		msg.channel.send({ "embeds": [embed] }).then(new_msg => {
 			setTimeout(() => new_msg.delete().catch(err => console.log(err)), 5000);
 		});
+		this.update_msg(queue, queue.nowPlaying);
 	}
 	end_message(queue) {
 		const msg = this.guilds.get(queue.guild.id);
@@ -359,7 +364,7 @@ class Music_analys extends Player {
 				}
 			};
 			const embed = new MessageEmbed(options);
-			msg.edit({ "content": "Играю", "embeds": [embed] });
+			msg.edit({ "content": "Играю", "embeds": [embed], "components": [this.action_row, this.action_row2] });
 			this.intervals.set(queue.guild.id, setInterval(() => this.update_msg(queue, song), 10000));
 		}
 
