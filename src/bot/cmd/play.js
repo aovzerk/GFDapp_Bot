@@ -108,7 +108,7 @@ class Command extends Base_Command {
 				});
 			}
 		} catch (error) {
-			if (queue && !queue.destroyed) {
+			if (guildQueue && !guildQueue.destroyed) {
 				guildQueue.stop();
 			}
 			if (!args.msg.member.voice.channel) {
